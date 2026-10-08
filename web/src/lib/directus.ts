@@ -1,11 +1,9 @@
-const URL = import.meta.env.VITE_DIRECTUS_URL as string | undefined
-const TOKEN = import.meta.env.VITE_DIRECTUS_TOKEN as string | undefined
+import { createDirectus, rest, staticToken } from '@directus/sdk'
 
-/** GET a Directus REST path, e.g. directus('/items/venues', { fields: '*,image.*', limit: '8' }). Returns `data`. */
-export async function directus<T>(path: string, params: Record<string, string> = {}): Promise<T> {
-  const res = await fetch(`${URL}${path}?${new URLSearchParams(params)}`, {
-    headers: TOKEN ? { Authorization: `Bearer ${TOKEN}` } : undefined,
-  })
-  if (!res.ok) throw new Error(`Directus ${res.status} on ${path}`)
-  return (await res.json()).data as T
-}
+// Static SPA: no server env, so these are VITE_ vars and the token ships in the bundle.
+// ponytail: use a read-only public-role token here; move to a server proxy if it ever needs write access.
+const client = createDirectus(import.meta.env.VITE_DIRECTUS_URL as string)
+  .with(staticToken(import.meta.env.VITE_DIRECTUS_TOKEN as string))
+  .with(rest())
+
+export default client

@@ -4,18 +4,8 @@ import { imageUrl } from '../lib/image'
 import { Nav } from '../components/Nav'
 import { Footer } from '../components/Footer'
 import { Rail } from '../components/Rail'
-import { Crumbs, IfeatHead } from '../components/blocks'
+import { Crumbs, IfeatHead, RowTitle } from '../components/blocks'
 import { ArticleCard, CityCard, VenueCard } from '../components/cards'
-
-function RowTitle({ title, description }: { title: string; description?: string }) {
-  return (
-    <div className="rowtitle">
-      <p className="rowtitle__type">Explore</p>
-      <div className="rowtitle__head"><h2>{title}</h2></div>
-      {description && <p className="rowtitle__desc">{description}</p>}
-    </div>
-  )
-}
 
 function Block({ b }: { b: DiscoveryBlock }) {
   switch (b.type) {
@@ -76,7 +66,7 @@ export default function Discovery() {
       <main id="content">
         <div className="pagehead pagehead--split">
           <div>
-            <Crumbs label="Discovery" to="/discovery" />
+            <Crumbs trail={[{ label: 'Discovery', url: '/discovery' }]} />
             <img className="pagehead__brand" src="https://www.the50.com/filestore/svg/the-50-logo-discovery.svg" alt="The 50 Discovery" height={54} />
             <h1 className="pagehead__title">{hero.title}</h1>
             <p className="pagehead__sub">{hero.subtitle}</p>

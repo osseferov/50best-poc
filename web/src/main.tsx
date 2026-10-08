@@ -2,10 +2,11 @@ import { StrictMode } from 'react'
 import { createRoot } from 'react-dom/client'
 import { createBrowserRouter, Outlet, RouterProvider, ScrollRestoration } from 'react-router'
 import { SignInProvider } from './components/SignIn'
-import { getDiscoveryPage, getHomePage, getStoriesPage } from './api/pages'
+import { getDiscoveryPage, getHomePage, getStoriesPage, getVenuePage } from './api/pages'
 import Home from './pages/Home'
 import Discovery from './pages/Discovery'
 import Stories from './pages/Stories'
+import Venue from './pages/Venue'
 import './styles/the50.css'
 
 function Root() {
@@ -24,6 +25,7 @@ const router = createBrowserRouter([
     children: [
       { path: '/', element: <Home />, loader: getHomePage },
       { path: '/discovery', element: <Discovery />, loader: getDiscoveryPage },
+      { path: '/discovery/establishments/:slug', element: <Venue />, loader: getVenuePage },
       { path: '/stories', element: <Stories />, loader: getStoriesPage },
     ],
   },

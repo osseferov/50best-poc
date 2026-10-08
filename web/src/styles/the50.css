@@ -1225,3 +1225,57 @@ a.promo2__media:hover img { opacity: .85; }
   .signin__submit { min-width: 200px; height: 43px; margin-top: 18px; }
   .signin__foot { margin-top: 24px; }
 }
+
+/* ============================================================================
+   venue (establishment) page — matched to the50.com/discovery/Establishments/…
+   Gallery of 3 across (1.1 per view ≤690px), then a centred 700px column:
+   48px serif name, 23px grey place, outlined actions, Key Information with
+   the live 24px icons, address + map. "Places nearby" reuses the venues row.
+   ========================================================================== */
+.vgallery {
+  display: flex; gap: 24px;
+  max-width: var(--max); margin: 0 auto; padding: 16px var(--gutter);
+  overflow-x: auto; scroll-snap-type: x mandatory; scrollbar-width: none;
+}
+.vgallery::-webkit-scrollbar { display: none; }
+.vgallery img { flex: 0 0 calc((100% - 48px) / 3); min-width: 0; aspect-ratio: 400 / 261; object-fit: cover; scroll-snap-align: start; }
+
+.venue { max-width: 700px; margin: 24px auto 0; padding-bottom: 80px; letter-spacing: .44px; }
+.venue__name { margin: 0 0 5px -1px; font-family: var(--font-display); font-size: 48px; font-weight: 400; line-height: 1; letter-spacing: -0.04em; }
+.venue__place { margin-bottom: 24px; font-size: 23px; line-height: 1.2; color: var(--grey-four); }
+.venue__actions { display: flex; justify-content: center; gap: 12px; margin-bottom: 40px; }
+.venue__btn {
+  display: flex; align-items: center; justify-content: center; gap: 6px;
+  width: 240px; height: 44px; padding: 10px 20px;
+  border: 1px solid var(--black); border-radius: var(--radius); background: none;
+  font: inherit; font-size: 16px; font-weight: 600; line-height: 1.2; letter-spacing: .44px; color: var(--black); cursor: pointer;
+}
+.venue__btn:hover { background: var(--grey-wash); }
+.venue__btn svg { width: 20px; height: 20px; flex-shrink: 0; }
+.venue__desc { font-size: 16px; line-height: 1.4; }
+.venue__desc p + p { margin-top: 16px; }
+.venue__h2 { padding-top: 40px; font-family: var(--font-display); font-size: 27px; font-weight: 400; line-height: 1; letter-spacing: -0.04em; }
+.venue__details { padding-top: 24px; list-style: none; }
+.venue__details li { padding: 0 0 16px 40px; line-height: 24px; background-repeat: no-repeat; background-size: 24px 24px; }
+.venue__details a { text-decoration: underline; }
+.venue__price { background-image: url("https://www.the50.com/discovery/filestore/svg/icon-price.svg"); }
+.venue__hours { background-image: url("https://www.the50.com/discovery/filestore/svg/icon-service.svg"); }
+.venue__phone { background-image: url("https://www.the50.com/discovery/filestore/svg/icon-telephone.svg"); }
+.venue__web { background-image: url("https://www.the50.com/discovery/filestore/svg/icon-website.svg"); }
+.venue__hours span { display: block; }
+.venue__source { margin-top: -4px; font-size: 13px; line-height: 1.4; color: var(--grey-four); }
+.venue__address { padding: 8px 0 24px; font-size: 13px; line-height: 1.4; }
+.venue__map { display: block; width: 100%; height: 450px; border: 0; border-radius: 6px; }
+
+@media (max-width: 920px) {
+  .venue { padding-left: var(--gutter); padding-right: var(--gutter); }
+}
+@media (max-width: 690px) {
+  .vgallery { gap: 16px; padding: 16px 20px 15px; }
+  .vgallery img { flex-basis: calc((100% - 1.6px) / 1.1); }
+  .venue { margin-top: 8px; padding: 0 20px 34px; }
+  .venue__name { font-size: 40px; }
+  .venue__place { font-size: 19px; }
+  .venue__actions { flex-direction: column; }
+  .venue__btn { width: 100%; gap: 4px; }
+}

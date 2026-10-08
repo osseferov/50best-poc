@@ -21,7 +21,7 @@ export default function Stories() {
       <meta name="description" content="Inspiration, guides and news from The 50's global community of chefs, bartenders, writers and hoteliers." />
       <Nav search />
       <main id="content">
-        <div className="pagehead"><Crumbs label="Stories" to="/stories" /></div>
+        <div className="pagehead"><Crumbs trail={[{ label: 'Stories', url: '/stories' }]} /></div>
 
         <section className="slead">
           <article className="slead__card">

@@ -82,6 +82,25 @@ export interface DiscoveryPage {
   blocks: DiscoveryBlock[]
 }
 
+/** Venue (establishment) detail page. `description` is rich-text HTML from Directus. */
+export interface VenueDetail extends Venue {
+  description: string
+  gallery: Image[]
+  address?: string
+  map?: { lat: number; lng: number }
+  placeId?: string // Google place id: map pin + Key Information
+  price?: string // full line, e.g. "Average price per person $66"
+  hours?: string[] // one line per day (or one summary line)
+  phone?: string
+  website?: string
+  keyInfoSource?: 'google' // credit Google under Key Information
+}
+
+export interface VenuePage {
+  venue: VenueDetail
+  nearby: Venue[]
+}
+
 export interface StoriesPage {
   lead: Article
   stories: Article[]

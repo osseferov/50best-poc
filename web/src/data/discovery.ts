@@ -21,7 +21,7 @@ export const discovery: DiscoveryPage = {
           "country": "Mexico",
           "style": "Iconic seafood cantina",
           "image": "https://www.the50.com/discovery/filestore/jpg/Contramar-MexicoCity-Mexico-02.jpg",
-          "url": "https://www.the50.com/discovery/Establishments/Mexico/Mexico-City/Contramar.html"
+          "url": "/discovery/establishments/contramar"
         },
         {
           "id": "hartwood",

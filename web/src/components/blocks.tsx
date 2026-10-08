@@ -1,3 +1,4 @@
+import { Fragment } from 'react'
 import { SmartLink } from './SmartLink'
 import { ArrowLong, ArrowShort } from './icons'
 import type { Link } from '../types'
@@ -27,12 +28,23 @@ export function IfeatHead({ title, more }: { title: string; more: Link }) {
   )
 }
 
-export function Crumbs({ label, to }: { label: string; to: string }) {
+export function Crumbs({ trail }: { trail: Link[] }) {
   return (
     <p className="crumbs">
       <SmartLink href="/">Home</SmartLink><span aria-hidden="true">/</span>
-      <SmartLink href={to}>{label}</SmartLink><span aria-hidden="true">/</span>
+      {trail.map((c) => <Fragment key={c.url}><SmartLink href={c.url}>{c.label}</SmartLink><span aria-hidden="true">/</span></Fragment>)}
     </p>
+  )
+}
+
+/** Discovery row head: eyebrow + serif title + description. */
+export function RowTitle({ title, description }: { title: string; description?: string }) {
+  return (
+    <div className="rowtitle">
+      <p className="rowtitle__type">Explore</p>
+      <div className="rowtitle__head"><h2>{title}</h2></div>
+      {description && <p className="rowtitle__desc">{description}</p>}
+    </div>
   )
 }
 

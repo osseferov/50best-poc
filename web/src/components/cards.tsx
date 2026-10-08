@@ -69,10 +69,10 @@ export function VenueCard({ v }: { v: Venue }) {
   const signIn = useSignIn()
   return (
     <article className="vcard">
-      <a className="vcard__media" href={v.url}>
-        <img src={imageUrl(v.image, CARD_W)} alt={v.name} loading="lazy" />
+      <SmartLink className="vcard__media" href={v.url}>
+        {v.image && <img src={imageUrl(v.image, CARD_W)} alt={v.name} loading="lazy" />}
         {v.gem && <img className="vcard__gem" src={GEM} alt="The 50" />}
-      </a>
+      </SmartLink>
       <div className="vcard__contents">
         <div className="vcard__top">
           <p className="vcard__tag">{v.type}</p>
@@ -82,7 +82,7 @@ export function VenueCard({ v }: { v: Venue }) {
           </div>
         </div>
         <div className="vcard__bottom">
-          <h3 className="vcard__name"><a href={v.url}>{v.name}</a></h3>
+          <h3 className="vcard__name"><SmartLink href={v.url}>{v.name}</SmartLink></h3>
           <p className="vcard__place">{`${v.city}, ${v.country}`}</p>
           <p className="vcard__style">{v.style}</p>
         </div>
