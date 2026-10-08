@@ -116,6 +116,7 @@ async function getDirectusVenuePage(slug: string): Promise<VenuePage | undefined
     limit: 1,
   }))) as unknown as DxEstablishmentDetail[]
   if (!e) return undefined
+  const placeId = e.google_place_id?.trim().split(/\s/)[0] || undefined // editors paste "<id> <address>"; ids never contain spaces
 
   const [nearby, keyInfo] = await Promise.all([
     client.request(readItems('establishment', {
@@ -123,7 +124,7 @@ async function getDirectusVenuePage(slug: string): Promise<VenuePage | undefined
       filter: { city: { _eq: e.city }, id: { _neq: e.id } }, // ponytail: same-city match; switch to a _dwithin on `location` for real distance
       limit: 8,
     })) as unknown as Promise<DxEstablishment[]>,
-    getKeyInfo(e.google_place_id),
+    getKeyInfo(placeId),
   ])
 
   return {
@@ -134,7 +135,7 @@ async function getDirectusVenuePage(slug: string): Promise<VenuePage | undefined
       gallery: e.photos.map((p) => p.directus_files_id),
       address: e.address ?? undefined,
       map: e.location ? { lat: e.location.coordinates[1], lng: e.location.coordinates[0] } : undefined,
-      placeId: e.google_place_id ?? undefined,
+      placeId,
     },
     nearby: nearby.map(toVenue),
   }
@@ -145,7 +146,7 @@ export async function getStoriesPage(): Promise<StoriesPage> {
 }
 
 /** Key Information is fetched live from Google Places (never stored — Google's terms); hidden without a place id. */
-async function getKeyInfo(placeId: string | null) {
+async function getKeyInfo(placeId: string | undefined) {
   if (!placeId || !import.meta.env.VITE_GOOGLE_MAPS_KEY) return {} // no place id → section hidden
   try {
     return { ...(await getPlaceKeyInfo(placeId)), keyInfoSource: 'google' as const }
