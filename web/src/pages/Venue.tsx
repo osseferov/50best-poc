@@ -60,7 +60,6 @@ export default function Venue() {
                 {v.phone && <li className="venue__phone"><a href={`tel:${v.phone}`}>{v.phone}</a></li>}
                 {v.website && <li className="venue__web"><a href={v.website} target="_blank" rel="noopener">{`Visit ${v.name}'s Website`}</a></li>}
               </ul>
-              {v.keyInfoSource === 'google' && <p className="venue__source">Information from Google Maps</p>}
             </>
           )}
 

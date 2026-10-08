@@ -124,7 +124,7 @@ async function getDirectusVenuePage(slug: string): Promise<VenuePage | undefined
       filter: { city: { _eq: e.city }, id: { _neq: e.id } }, // ponytail: same-city match; switch to a _dwithin on `location` for real distance
       limit: 8,
     })) as unknown as Promise<DxEstablishment[]>,
-    getKeyInfo(placeId),
+    getKeyInfo(placeId, toVenue(e).type),
   ])
 
   return {
@@ -146,10 +146,10 @@ export async function getStoriesPage(): Promise<StoriesPage> {
 }
 
 /** Key Information is fetched live from Google Places (never stored — Google's terms); hidden without a place id. */
-async function getKeyInfo(placeId: string | undefined) {
+async function getKeyInfo(placeId: string | undefined, type: Venue['type']) {
   if (!placeId || !import.meta.env.VITE_GOOGLE_MAPS_KEY) return {} // no place id → section hidden
   try {
-    return { ...(await getPlaceKeyInfo(placeId)), keyInfoSource: 'google' as const }
+    return await getPlaceKeyInfo(placeId, type)
   } catch (e) {
     console.error(e) // Google down / bad place id → page still renders, without Key Information
     return {}

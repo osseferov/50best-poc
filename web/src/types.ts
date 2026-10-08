@@ -93,7 +93,6 @@ export interface VenueDetail extends Venue {
   hours?: string[] // one line per day (or one summary line)
   phone?: string
   website?: string
-  keyInfoSource?: 'google' // credit Google under Key Information
 }
 
 export interface VenuePage {

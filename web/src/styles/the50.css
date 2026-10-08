@@ -1263,7 +1263,6 @@ a.promo2__media:hover img { opacity: .85; }
 .venue__phone { background-image: url("https://www.the50.com/discovery/filestore/svg/icon-telephone.svg"); }
 .venue__web { background-image: url("https://www.the50.com/discovery/filestore/svg/icon-website.svg"); }
 .venue__hours span { display: block; }
-.venue__source { margin-top: -4px; font-size: 13px; line-height: 1.4; color: var(--grey-four); }
 .venue__address { padding: 8px 0 24px; font-size: 13px; line-height: 1.4; }
 .venue__map { display: block; width: 100%; height: 450px; border: 0; border-radius: 6px; }
 
