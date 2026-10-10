@@ -59,7 +59,7 @@ export function Nav({ search = false }: { search?: boolean }) {
               </ul>
             </nav>
             {search && (
-              <form className="nav__search" role="search" action="https://www.the50.com/search" method="get">
+              <form className="nav__search" role="search" onSubmit={(e) => e.preventDefault()}>
                 <input className="nav__search-input" type="search" name="q" placeholder="Search by location or venue" aria-label="Search by location or venue" />
                 <button className="nav__search-btn" type="submit" aria-label="Search"><Search /></button>
               </form>

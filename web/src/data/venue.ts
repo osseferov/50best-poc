@@ -2,9 +2,8 @@
 import type { Venue, VenuePage } from '../types'
 
 const IMG = 'https://www.the50.com/discovery/filestore/jpg/'
-const LIVE = 'https://www.the50.com/discovery/Establishments/Mexico/Mexico-City/'
 const near = (id: string, name: string, type: Venue['type'], style: string, image: string, gem?: boolean): Venue =>
-  ({ id, name, type, city: 'Mexico City', country: 'Mexico', style, image: image && IMG + image, gem, url: `${LIVE}${id}.html` })
+  ({ id, name, type, city: 'Mexico City', country: 'Mexico', style, image: image && IMG + image, gem, url: '#' })
 
 export const venues: Record<string, VenuePage> = {
   contramar: {

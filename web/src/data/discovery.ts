@@ -8,6 +8,7 @@ export const discovery: DiscoveryPage = {
     image: 'https://www.the50.com/discovery/filestore/jpg/discovery-header-image-optimised.jpg',
   },
   blocks: [
+    /* Replaced by the Directus `discovery_landing` carousel (api/pages.ts → getDiscoveryLandingBlocks). Kept for reference.
     {
       type: 'venues', id: 'row-live-fire', label: 'restaurants',
       title: "Editors' picks: Restaurants that cook over live fire best",
@@ -31,7 +32,7 @@ export const discovery: DiscoveryPage = {
           "country": "Mexico",
           "style": "Jungle-centric wood-fired Mexican",
           "image": "https://www.the50.com/discovery/filestore/jpg/1HartwoodDiscoDish1.jpg",
-          "url": "https://www.the50.com/discovery/Establishments/Mexico/Tulum/Hartwood.html"
+          "url": "#"
         },
         {
           "id": "ekstedt",
@@ -41,7 +42,7 @@ export const discovery: DiscoveryPage = {
           "country": "Sweden",
           "style": "Fired-up Swedish bites",
           "image": "https://www.the50.com/discovery/filestore/jpg/Ekstedt-Stockholm-Sweden-03.jpg",
-          "url": "https://www.the50.com/discovery/Establishments/Sweden/Stockholm/Ekstedt.html"
+          "url": "#"
         },
         {
           "id": "ando",
@@ -52,7 +53,7 @@ export const discovery: DiscoveryPage = {
           "style": "Spanish roots infused with Japanese creativity",
           "image": "https://www.the50.com/discovery/filestore/jpg/ando-hong-kong%20(1).jpg",
           "gem": true,
-          "url": "https://www.the50.com/discovery/Establishments/China/Hong-Kong/Ando.html"
+          "url": "#"
         },
         {
           "id": "lita-marylebone",
@@ -62,7 +63,7 @@ export const discovery: DiscoveryPage = {
           "country": "UK",
           "style": "Decorated Basque bistro",
           "image": "https://www.the50.com/discovery/filestore/jpg/LitaMarylebone_interior.jpg",
-          "url": "https://www.the50.com/discovery/Establishments/UK/London/Lita-Marylebone.html"
+          "url": "#"
         },
         {
           "id": "elkano",
@@ -73,7 +74,7 @@ export const discovery: DiscoveryPage = {
           "style": "World-renowned grilled seafood",
           "image": "https://www.the50.com/discovery/filestore/jpg/Elkano-Getaria-Spain-01.jpg",
           "gem": true,
-          "url": "https://www.the50.com/discovery/Establishments/Spain/Getaria/Elkano.html"
+          "url": "#"
         },
         {
           "id": "burnt-ends",
@@ -84,7 +85,7 @@ export const discovery: DiscoveryPage = {
           "style": "Australian-style barbecue",
           "image": "https://www.the50.com/discovery/filestore/jpg/BurntEnds-Singapore-Singapore-01.jpg",
           "gem": true,
-          "url": "https://www.the50.com/discovery/Establishments/Singapore/Singapore/Burnt-Ends.html"
+          "url": "#"
         },
         {
           "id": "firedoor",
@@ -94,13 +95,14 @@ export const discovery: DiscoveryPage = {
           "country": "Australia",
           "style": "Authentic cooking over flames",
           "image": "https://www.the50.com/discovery/filestore/jpg/Firedoor-Sydney-Australia-03.jpg",
-          "url": "https://www.the50.com/discovery/Establishments/Australia/Sydney/Firedoor.html"
+          "url": "#"
         }
       ],
     },
+    */
     {
       type: 'features', id: 'row-features', title: 'Inspirational Features',
-      more: { label: 'View More', url: 'https://www.the50.com/stories/tags/Discovery' },
+      more: { label: 'View More', url: '#' },
       items: [
         {
           "id": "ifeat-0",
@@ -148,7 +150,7 @@ export const discovery: DiscoveryPage = {
           "style": "Tasty and technically impressive",
           "image": "https://www.the50.com/discovery/filestore/jpg/Mother%20Cocktail%20Bar-Toronto-Canada-1.jpg",
           "gem": true,
-          "url": "https://www.the50.com/discovery/Establishments/Canada/Toronto/Mother.html"
+          "url": "#"
         },
         {
           "id": "nhau-nhau",
@@ -158,7 +160,7 @@ export const discovery: DiscoveryPage = {
           "country": "Vietnam",
           "style": "Nhau drinks no worries",
           "image": "https://www.the50.com/discovery/filestore/jpg/Nhau%20Nhau%20Pho%20Bar-Ho%20Chi%20Minh%20City-Vietnam-1.jpg",
-          "url": "https://www.the50.com/discovery/Establishments/Vietnam/Ho-Chi-Minh-City/Nhau-Nhau.html"
+          "url": "#"
         },
         {
           "id": "raa",
@@ -168,7 +170,7 @@ export const discovery: DiscoveryPage = {
           "country": "Sri Lanka",
           "style": "Coastal coconut heaven",
           "image": "https://www.the50.com/discovery/filestore/jpg/RaaDrink1.jpg",
-          "url": "https://www.the50.com/discovery/Establishments/Sri-Lanka/Dikwella/Raa.html"
+          "url": "#"
         },
         {
           "id": "the-bellwood",
@@ -179,7 +181,7 @@ export const discovery: DiscoveryPage = {
           "style": "Japanese café meets cocktail bar",
           "image": "https://www.the50.com/discovery/filestore/jpg/The_Bellwood_Drink.jpg",
           "gem": true,
-          "url": "https://www.the50.com/discovery/Establishments/Japan/Tokyo/The-Bellwood.html"
+          "url": "#"
         },
         {
           "id": "line",
@@ -190,7 +192,7 @@ export const discovery: DiscoveryPage = {
           "style": "Industrial-chic fermentation bar",
           "image": "https://www.the50.com/discovery/filestore/jpg/Line-wine.jpg",
           "gem": true,
-          "url": "https://www.the50.com/discovery/Establishments/Greece/Athens/Line.html"
+          "url": "#"
         },
         {
           "id": "penicillin",
@@ -201,7 +203,7 @@ export const discovery: DiscoveryPage = {
           "style": "Waste not want more",
           "image": "https://www.the50.com/discovery/filestore/jpg/Penicillin-HongKong-China-1.jpg",
           "gem": true,
-          "url": "https://www.the50.com/discovery/Establishments/China/Hong-Kong/Penicillin.html"
+          "url": "#"
         },
         {
           "id": "native",
@@ -212,7 +214,7 @@ export const discovery: DiscoveryPage = {
           "style": "Creative Asia-centric concoctions",
           "image": "https://www.the50.com/discovery/filestore/jpg/Native-Singapore-Singapore-02.jpg",
           "gem": true,
-          "url": "https://www.the50.com/discovery/Establishments/Singapore/Singapore/Native.html"
+          "url": "#"
         },
         {
           "id": "bar-us",
@@ -223,7 +225,7 @@ export const discovery: DiscoveryPage = {
           "style": "Temple of forward-thinking techniques",
           "image": "https://www.the50.com/discovery/filestore/jpg/Bar%20Us-drink.jpg",
           "gem": true,
-          "url": "https://www.the50.com/discovery/Establishments/Thailand/Bangkok/Bar-Us.html"
+          "url": "#"
         }
       ],
     },
@@ -240,7 +242,7 @@ export const discovery: DiscoveryPage = {
           "country": "Spain",
           "style": "Revived Madrid matriarch",
           "image": "https://www.the50.com/discovery/filestore/jpg/Mandarin%20Oriental%20Madrid%20-%20restaurant.jpg",
-          "url": "https://www.the50.com/discovery/Establishments/Spain/Madrid/Mandarin-Oriental-Ritz-Madrid.html"
+          "url": "#"
         },
         {
           "id": "raffles-singapore",
@@ -251,7 +253,7 @@ export const discovery: DiscoveryPage = {
           "style": "Historic Singapore revitalised",
           "image": "https://www.the50.com/discovery/filestore/jpg/Raffles%20Singapore%20-%20accommodation.jpg",
           "gem": true,
-          "url": "https://www.the50.com/discovery/Establishments/Singapore/Singapore/Raffles-Singapore.html"
+          "url": "#"
         },
         {
           "id": "la-mamounia",
@@ -262,7 +264,7 @@ export const discovery: DiscoveryPage = {
           "style": "Historic Moroccan hospitality",
           "image": "https://www.the50.com/discovery/filestore/jpg/La%20Mamounia%20-%20restaurant.jpg",
           "gem": true,
-          "url": "https://www.the50.com/discovery/Establishments/Morocco/Marrakech/La-Mamounia.html"
+          "url": "#"
         },
         {
           "id": "palacio-nazarenas-a-belmond-hotel-cusco",
@@ -272,7 +274,7 @@ export const discovery: DiscoveryPage = {
           "country": "Peru",
           "style": "Incan heritage meets modenity",
           "image": "https://www.the50.com/discovery/filestore/jpg/Palacio%20Nazarenas_room.jpg",
-          "url": "https://www.the50.com/discovery/Establishments/Peru/Cusco/Palacio-Nazarenas-A-Belmond-Hotel-Cusco.html"
+          "url": "#"
         },
         {
           "id": "bulgari-roma",
@@ -283,7 +285,7 @@ export const discovery: DiscoveryPage = {
           "style": "A Roman jewel",
           "image": "https://www.the50.com/discovery/filestore/jpg/Bulgari%20Roma_exterior1.jpg",
           "gem": true,
-          "url": "https://www.the50.com/discovery/Establishments/Italy/Rome/Bulgari-Roma.html"
+          "url": "#"
         },
         {
           "id": "taj-mahal-palace-mumbai",
@@ -294,7 +296,7 @@ export const discovery: DiscoveryPage = {
           "style": "Old-fashioned grandeur",
           "image": "https://www.the50.com/discovery/filestore/jpg/Taj%20Mahal%20Palace_exterior.jpg",
           "gem": true,
-          "url": "https://www.the50.com/discovery/Establishments/India/Mumbai/Taj-Mahal-Palace-Mumbai.html"
+          "url": "#"
         },
         {
           "id": "mount-nelson",
@@ -305,7 +307,7 @@ export const discovery: DiscoveryPage = {
           "style": "Cape Town’s pink lady",
           "image": "https://www.the50.com/discovery/filestore/jpg/2024%20The%20Mount%20Nelson%20Hotel_Exteriors_6%20(1).jpg",
           "gem": true,
-          "url": "https://www.the50.com/discovery/Establishments/South-Africa/Cape-Town/Mount-Nelson.html"
+          "url": "#"
         }
       ],
     },
@@ -315,98 +317,98 @@ export const discovery: DiscoveryPage = {
           "name": "Singapore",
           "description": "Cocktails and cuisine in the City State",
           "image": "/assets/singapore.jpg",
-          "url": "https://www.the50.com/discovery/search-results.html?country=Singapore"
+          "url": "#"
         },
         {
           "id": "tokyo",
           "name": "Tokyo",
           "description": "Ancient and modern dining and drinking",
           "image": "/assets/tokyo.jpg",
-          "url": "https://www.the50.com/discovery/search-results.html?town=Tokyo&country=Japan"
+          "url": "#"
         },
         {
           "id": "sydney",
           "name": "Sydney",
           "description": "Harbour beauty, outdoor living",
           "image": "/assets/sydney.jpg",
-          "url": "https://www.the50.com/discovery/search-results.html?town=Sydney&country=Australia"
+          "url": "#"
         },
         {
           "id": "mexico-city",
           "name": "Mexico City",
           "description": "Bustling capital built on Aztec ruins",
           "image": "/assets/mexico-city.jpg",
-          "url": "https://www.the50.com/discovery/search-results.html?town=Mexico+City&country=Mexico"
+          "url": "#"
         },
         {
           "id": "marrakech",
           "name": "Marrakech",
           "description": "Desert gateway with ancient souks",
           "image": "/assets/marrakech.jpg",
-          "url": "https://www.the50.com/discovery/search-results.html?town=Marrakech&country=Morocco"
+          "url": "#"
         },
         {
           "id": "new-york",
           "name": "New York",
           "description": "The city that never sleeps",
           "image": "/assets/vineyard.jpg",
-          "url": "https://www.the50.com/discovery/search-results.html?town=New+York&country=US"
+          "url": "#"
         },
         {
           "id": "dubrovnik",
           "name": "Dubrovnik",
           "description": "Croatia's gastronomic capital",
           "image": "/assets/restaurant.jpg",
-          "url": "https://www.the50.com/discovery/search-results.html?town=Dubrovnik&country=Croatia"
+          "url": "#"
         },
         {
           "id": "seoul",
           "name": "Seoul",
           "description": "Fast-paced innovation meets timeless tradition",
           "image": "/assets/bar.jpg",
-          "url": "https://www.the50.com/discovery/search-results.html?town=Seoul&country=South+Korea"
+          "url": "#"
         },
         {
           "id": "paris",
           "name": "Paris",
           "description": "The best of the City of Lights",
           "image": "/assets/paris.jpg",
-          "url": "https://www.the50.com/discovery/search-results.html?town=Paris&country=France"
+          "url": "#"
         },
         {
           "id": "london",
           "name": "London",
           "description": "A city of boundless culinary variety",
           "image": "/assets/london.jpg",
-          "url": "https://www.the50.com/discovery/search-results.html?town=London&country=UK"
+          "url": "#"
         },
         {
           "id": "istanbul",
           "name": "Istanbul",
           "description": "The only global capital straddling two continents",
           "image": "/assets/istanbul.jpg",
-          "url": "https://www.the50.com/discovery/search-results.html?town=Istanbul&country=Turkey"
+          "url": "#"
         },
         {
           "id": "los-angeles",
           "name": "Los Angeles",
           "description": "Eat and drink among the glitterati",
           "image": "/assets/vineyard.jpg",
-          "url": "https://www.the50.com/discovery/search-results.html?town=Los+Angeles&country=US"
+          "url": "#"
         },
         {
           "id": "vancouver",
           "name": "Vancouver",
           "description": "Culinary star power in the City of Glass",
           "image": "/assets/restaurant.jpg",
-          "url": "https://www.the50.com/discovery/search-results.html?town=Vancouver&country=Canada"
+          "url": "#"
         },
         {
           "id": "madrid",
           "name": "Madrid",
           "description": "Spain's beating heart",
           "image": "/assets/bar.jpg",
-          "url": "https://www.the50.com/discovery/search-results.html?town=Madrid&country=Spain"
+          "url": "#"
         }
       ] },
     { type: 'destinations', id: 'row-wine-destinations', label: 'regions', title: 'Wine destinations', items: [
@@ -415,49 +417,49 @@ export const discovery: DiscoveryPage = {
           "name": "France",
           "description": "Timeless, elegant, terroir-driven",
           "image": "/assets/paris.jpg",
-          "url": "https://www.the50.com/discovery/search-results.html?country=France"
+          "url": "#"
         },
         {
           "id": "italy",
           "name": "Italy",
           "description": "Lively, regional and full of personality",
           "image": "/assets/vineyard.jpg",
-          "url": "https://www.the50.com/discovery/search-results.html?country=Italy"
+          "url": "#"
         },
         {
           "id": "spain",
           "name": "Spain",
           "description": "Earthy, slow-aged and quietly confident",
           "image": "/assets/ritz-madrid.jpg",
-          "url": "https://www.the50.com/discovery/search-results.html?country=Spain"
+          "url": "#"
         },
         {
           "id": "australia",
           "name": "Australia",
           "description": "Sunny and generous with a modern edge",
           "image": "/assets/sydney.jpg",
-          "url": "https://www.the50.com/discovery/search-results.html?country=Australia"
+          "url": "#"
         },
         {
           "id": "new-zealand",
           "name": "New Zealand",
           "description": "Fresh and zesty: for intensely aromatic wines",
           "image": "/assets/vineyard.jpg",
-          "url": "https://www.the50.com/discovery/search-results.html?country=New+Zealand"
+          "url": "#"
         },
         {
           "id": "usa",
           "name": "USA",
           "description": "Ambitious and innovative",
           "image": "/assets/wine-cellar.jpg",
-          "url": "https://www.the50.com/discovery/search-results.html?country=United+States"
+          "url": "#"
         },
         {
           "id": "portugal",
           "name": "Portugal",
           "description": "Old-school roots with punchy flavours",
           "image": "/assets/wine-cellar.jpg",
-          "url": "https://www.the50.com/discovery/search-results.html?country=Portugal"
+          "url": "#"
         }
       ] },
     {
@@ -466,7 +468,7 @@ export const discovery: DiscoveryPage = {
         title: 'Hotels with racquet sports',
         text: 'From tennis surrounded by the Swiss Alps to padel in an Indonesian jungle, these hotel courts are destinations in their own right',
         image: 'https://www.the50.com/discovery/filestore/jpg/discotenniscourt0508.jpg',
-        url: 'https://www.the50.com/discovery/collection/Hotels%20with%20racquet%20sports',
+        url: '#',
       },
       signup: {
         title: 'Sign up to The 50',
@@ -488,7 +490,7 @@ export const discovery: DiscoveryPage = {
           "style": "Views of Mt. Fuji",
           "image": "/assets/vineyard.jpg",
           "gem": true,
-          "url": "https://www.the50.com/discovery/Establishments/Japan/Yamanashi/98Wines.html"
+          "url": "#"
         },
         {
           "id": "bodega-garz-n",
@@ -499,7 +501,7 @@ export const discovery: DiscoveryPage = {
           "style": "Uruguayan style and smoke",
           "image": "https://www.the50.com/discovery/filestore/jpg/BodegaGarz%C3%B3n_TerraceView%20620%20x%20349px.jpg",
           "gem": true,
-          "url": "https://www.the50.com/discovery/Establishments/Uruguay/Maldonado/Bodega-Garz%C3%B3n.html"
+          "url": "#"
         },
         {
           "id": "ch-teau-mercian-mariko-winery",
@@ -510,7 +512,7 @@ export const discovery: DiscoveryPage = {
           "style": "Tasting Japanese history",
           "image": "https://www.the50.com/discovery/filestore/jpg/CHM18_08_BB_Philosophy%20TEASER-620x349.jpg",
           "gem": true,
-          "url": "https://www.the50.com/discovery/Establishments/Japan/Nagano/Ch%C3%A2teau-Mercian-Mariko-Winery.html"
+          "url": "#"
         },
         {
           "id": "ch-teau-mukhrani",
@@ -521,7 +523,7 @@ export const discovery: DiscoveryPage = {
           "style": "Georgia’s vinous nobility",
           "image": "https://www.the50.com/discovery/filestore/jpg/_MG_4455%20620%20x%20349px.jpg",
           "gem": true,
-          "url": "https://www.the50.com/discovery/Establishments/Georgia/Mukhrani/Ch%C3%A2teau-Mukhrani.html"
+          "url": "#"
         },
         {
           "id": "bodega-bouza",
@@ -532,7 +534,7 @@ export const discovery: DiscoveryPage = {
           "style": "Vintage automobiles framing modern wines",
           "image": "https://www.the50.com/discovery/filestore/jpg/acceso%20620%20x%20349px.jpg",
           "gem": true,
-          "url": "https://www.the50.com/discovery/Establishments/Uruguay/Montevideo/Bodega-Bouza.html"
+          "url": "#"
         },
         {
           "id": "ch-teau-buera",
@@ -543,7 +545,7 @@ export const discovery: DiscoveryPage = {
           "style": "Lakeside Georgian wine retreat",
           "image": "https://www.the50.com/discovery/filestore/jpg/ChBuera1.jpg",
           "gem": true,
-          "url": "https://www.the50.com/discovery/Establishments/Georgia/Kakheti/Ch%C3%A2teau-Buera.html"
+          "url": "#"
         },
         {
           "id": "movia",
@@ -553,7 +555,7 @@ export const discovery: DiscoveryPage = {
           "country": "Slovenia",
           "style": "Pure terroir expression",
           "image": "https://www.the50.com/discovery/filestore/jpg/Movia%20image%202%20620%20x%20349.jpg",
-          "url": "https://www.the50.com/discovery/Establishments/Slovenia/Brda/Movia.html"
+          "url": "#"
         }
       ],
     },

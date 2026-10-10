@@ -24,19 +24,19 @@ export function Footer({ siteMap = false }: { siteMap?: boolean }) {
           <div className="foot__col">
             <h3 className="foot__heading">About</h3>
             <ul>
-              <li><a href="https://www.the50.com/about-the-50">About us</a></li>
-              <li><a href="https://www.the50.com/partners/become-a-partner">Partner with us</a></li>
-              <li><a href="https://www.the50.com/contact-us">Contact us</a></li>
-              {siteMap && <li><a href="https://www.the50.com/discovery/sitemap">Site map</a></li>}
+              <li><a href="#">About us</a></li>
+              <li><a href="#">Partner with us</a></li>
+              <li><a href="#">Contact us</a></li>
+              {siteMap && <li><a href="#">Site map</a></li>}
             </ul>
           </div>
 
           <div className="foot__col">
             <h3 className="foot__heading">Press</h3>
             <ul>
-              <li><a href="https://www.the50.com/press/press-contacts">Press contacts</a></li>
-              <li><a href="https://www.the50.com/press/media-sign-up">Media sign up</a></li>
-              <li><a href="https://mediacentre.the50.com/#/hierarchies">Media centre</a></li>
+              <li><a href="#">Press contacts</a></li>
+              <li><a href="#">Media sign up</a></li>
+              <li><a href="#">Media centre</a></li>
             </ul>
           </div>
 

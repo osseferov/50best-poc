@@ -1,19 +1,27 @@
 import { useLoaderData } from 'react-router'
-import type { Link, StoriesPage } from '../types'
+import type { Article, Link, StoriesPage } from '../types'
 import { imageUrl } from '../lib/image'
 import { Nav } from '../components/Nav'
 import { Footer } from '../components/Footer'
-import { Crumbs, IfeatHead, SignupCTA } from '../components/blocks'
+import { Crumbs, IfeatHead, SignupCTA, Taxonomy } from '../components/blocks'
 import { ArticleCard } from '../components/cards'
+import { SmartLink } from '../components/SmartLink'
 import { useSignIn } from '../components/SignIn'
 import { BookmarkSlim } from '../components/icons'
 
-const STORIES_MORE = 'https://www.the50.com/stories/categories/News'
 const more = (url: string): Link => ({ label: 'View more', url })
-const LinkList = ({ items }: { items: Link[] }) => <ul>{items.map((l) => <li key={l.url}><a href={l.url}>{l.label}</a></li>)}</ul>
+/** The "Stories" list grid — shared by the Directus block and the static one below it. */
+const STORIES_MORE = '/stories/categories/News'
+const StoriesGrid = ({ items }: { items: Article[] }) => (
+  <section className="sgrid sgrid--list">
+    <IfeatHead title="Stories" more={more(STORIES_MORE)} />
+    <div className="sgrid__wrap">{items.map((a) => <ArticleCard key={a.id} a={a} light />)}</div>
+    <SmartLink className="sgrid__more" href={STORIES_MORE}>View more</SmartLink>
+  </section>
+)
 
 export default function Stories() {
-  const { lead, stories, discovery, guides, best, taxonomy } = useLoaderData() as StoriesPage
+  const { lead, latest, stories, discovery, guides, best, taxonomy } = useLoaderData() as StoriesPage
   const signIn = useSignIn()
   return (
     <>
@@ -40,28 +48,27 @@ export default function Stories() {
           <hr className="slead__rule" />
         </section>
 
-        <section className="sgrid sgrid--list">
-          <IfeatHead title="Stories" more={more(STORIES_MORE)} />
-          <div className="sgrid__wrap">{stories.map((a) => <ArticleCard key={a.id} a={a} light />)}</div>
-          <a className="sgrid__more" href={STORIES_MORE}>View more</a>
-        </section>
+        {latest?.length ? <StoriesGrid items={latest} /> : null}
+        {/* Static Stories grid — replaced by the Directus block above (getLatestStories). Kept for reference.
+        <StoriesGrid items={stories} />
+        */}
 
         <SignupCTA />
 
         <section className="ifeat sfive">
           <div className="ifeat__inner">
-            <IfeatHead title="Discovery" more={more('https://www.the50.com/stories/tags/Discovery')} />
+            <IfeatHead title="Discovery" more={more('#')} />
             <div className="sfive__wrap">{discovery.map((a) => <ArticleCard key={a.id} a={a} />)}</div>
           </div>
         </section>
 
         <section className="sgrid sfive">
-          <IfeatHead title="Destination guides" more={more('https://www.the50.com/stories/tags/Destination+guides')} />
+          <IfeatHead title="Destination guides" more={more('#')} />
           <div className="sfive__wrap">{guides.map((a) => <ArticleCard key={a.id} a={a} light />)}</div>
         </section>
 
         <section className="sgrid sbest">
-          <IfeatHead title="Best of the Best" more={more('https://www.the50.com/stories/tags/Best+of+the+Best')} />
+          <IfeatHead title="Best of the Best" more={more('#')} />
           <div className="sbest__grid">
             <article className="sbest__card">
               <a className="sbest__media" href={best.feature.url}><img src={imageUrl(best.feature.image, 1200)} alt={best.feature.alt} loading="lazy" /></a>
@@ -72,18 +79,7 @@ export default function Stories() {
           </div>
         </section>
 
-        <nav className="taxo" aria-label="Browse stories">
-          <div className="taxo__featured">
-            <p className="taxo__featured-label">Featured Tags</p>
-            <ul className="taxo__chips">{taxonomy.featuredTags.map((l) => <li key={l.url}><a href={l.url}>{l.label}</a></li>)}</ul>
-          </div>
-          <div className="taxo__inner">
-            <div className="taxo__col"><h3 className="taxo__heading">Archive</h3><LinkList items={taxonomy.archive} /></div>
-            <div className="taxo__col"><h3 className="taxo__heading">Categories</h3><LinkList items={taxonomy.categories} /></div>
-            <div className="taxo__col"><h3 className="taxo__heading">Featured Tags</h3><LinkList items={taxonomy.featuredTags} /></div>
-            <div className="taxo__col"><h3 className="taxo__heading">Authors</h3><LinkList items={taxonomy.authors} /></div>
-          </div>
-        </nav>
+        <Taxonomy taxonomy={taxonomy} />
       </main>
       <Footer />
     </>

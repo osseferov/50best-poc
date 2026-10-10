@@ -4,14 +4,16 @@
  * body with `client.request(readItems('…', { fields: … }))` calls (client from lib/directus) and map to the same types —
  * components never change.
  */
-import { readItems, readSingleton } from '@directus/sdk'
+import { aggregate, readItems, readSingleton } from '@directus/sdk'
 import type { LoaderFunctionArgs } from 'react-router'
-import type { DiscoveryBlock, DiscoveryPage, HomePage, StoriesPage, Venue, VenuePage } from '../types'
+import type { Article, DiscoveryBlock, DiscoveryPage, HomePage, StoriesPage, StoryCategoryPage, StoryPage, Venue, VenuePage } from '../types'
 import { home } from '../data/home'
 import { discovery } from '../data/discovery'
 import { stories } from '../data/stories'
 import { venues } from '../data/venue'
+import { stories as storyPages } from '../data/story'
 import { getPlaceKeyInfo } from '../lib/places'
+import { richTextAssets } from '../lib/image'
 
 export async function getHomePage(): Promise<HomePage> {
   return home
@@ -131,7 +133,7 @@ async function getDirectusVenuePage(slug: string): Promise<VenuePage | undefined
     venue: {
       ...toVenue(e),
       ...keyInfo,
-      description: e.editorial_description ?? '',
+      description: richTextAssets(e.editorial_description ?? ''),
       gallery: e.photos.map((p) => p.directus_files_id),
       address: e.address ?? undefined,
       map: e.location ? { lat: e.location.coordinates[1], lng: e.location.coordinates[0] } : undefined,
@@ -142,7 +144,96 @@ async function getDirectusVenuePage(slug: string): Promise<VenuePage | undefined
 }
 
 export async function getStoriesPage(): Promise<StoriesPage> {
-  return stories
+  if (!import.meta.env.VITE_DIRECTUS_URL) return stories
+  try {
+    return { ...stories, latest: await getLatestStories() }
+  } catch (e) {
+    console.error(e) // Directus down → static page only
+    return stories
+  }
+}
+
+// ── Directus: story ────────────────────────────────────────────────────
+
+interface DxStory {
+  id: number
+  slug: string | null
+  title: string
+  subtitle: string | null
+  main_image: string | null
+  category: { name: string } | null
+  author: { first_name: string | null; last_name: string | null } | null
+}
+interface DxStoryDetail extends DxStory {
+  published_at: string | null
+  tags: string[] | null
+  body: string | null
+  related_stories: { story_id: DxStory | null }[]
+}
+
+const STORY_CARD_FIELDS = ['id', 'slug', 'title', 'subtitle', 'main_image', 'category.name', 'author.first_name', 'author.last_name']
+const fullName = (a: DxStory['author']) => [a?.first_name, a?.last_name].filter(Boolean).join(' ') || undefined
+
+function toArticle(s: DxStory): Article {
+  return {
+    id: `dx-story-${s.id}`,
+    title: s.title,
+    description: s.subtitle ?? undefined,
+    image: s.main_image ?? '',
+    author: fullName(s.author),
+    category: s.category?.name,
+    url: `/stories/${s.slug || s.id}`,
+  }
+}
+
+async function getLatestStories(excludeId?: number): Promise<Article[]> {
+  const client = await directusClient()
+  const items = (await client.request(readItems('story', {
+    fields: STORY_CARD_FIELDS,
+    filter: { archived: { _neq: true }, ...(excludeId && { id: { _neq: excludeId } }) },
+    sort: ['-published_at'],
+    limit: 8, // same as the static grid
+  }))) as unknown as DxStory[]
+  return items.map(toArticle)
+}
+
+// ── story page: /stories/:slug ─────────────────────────────────────────
+
+/** `slug` may also be a numeric id. Directus first, then the mock (Peru ingredients). */
+export async function getStoryPage({ params }: LoaderFunctionArgs): Promise<StoryPage> {
+  const slug = params.slug!
+  const fromDirectus = import.meta.env.VITE_DIRECTUS_URL
+    ? await getDirectusStoryPage(slug).catch((e) => void console.error(e)) // Directus down → fall back to mock
+    : undefined
+  const page = fromDirectus || storyPages[slug]
+  if (!page) throw new Response('Story not found', { status: 404 })
+  return page
+}
+
+async function getDirectusStoryPage(slug: string): Promise<StoryPage | undefined> {
+  const client = await directusClient()
+  const [s] = (await client.request(readItems('story', {
+    fields: [...STORY_CARD_FIELDS, 'published_at', 'tags', 'body', ...STORY_CARD_FIELDS.map((f) => `related_stories.story_id.${f}`)],
+    filter: /^\d+$/.test(slug) ? { id: { _eq: Number(slug) } } : { slug: { _eq: slug } },
+    limit: 1,
+  }))) as unknown as DxStoryDetail[]
+  if (!s) return undefined
+  const picked = s.related_stories.flatMap((r) => (r.story_id && r.story_id.id !== s.id ? [toArticle(r.story_id)] : []))
+  return {
+    story: {
+      id: String(s.id),
+      title: s.title,
+      subtitle: s.subtitle ?? undefined,
+      image: s.main_image ?? '',
+      author: fullName(s.author),
+      date: s.published_at ?? undefined,
+      category: s.category?.name,
+      tags: s.tags ?? [],
+      body: richTextAssets(s.body ?? ''),
+    },
+    related: picked.length ? picked : await getLatestStories(s.id), // no hand-picked related → latest other stories
+    taxonomy: stories.taxonomy, // ponytail: archive/categories/authors are still mock
+  }
 }
 
 /** Key Information is fetched live from Google Places (never stored — Google's terms); hidden without a place id. */
@@ -154,4 +245,43 @@ async function getKeyInfo(placeId: string | undefined, type: Venue['type']) {
     console.error(e) // Google down / bad place id → page still renders, without Key Information
     return {}
   }
+}
+
+// ── story category listing: /stories/categories/:category?offset=20 ───
+
+const CATEGORY_PAGE_SIZE = 20 // as on the live site
+
+/** Paged like the live site: `?offset=` in steps of 20. Directus stories in the category, newest first; mock otherwise. */
+export async function getStoryCategoryPage({ params, request }: LoaderFunctionArgs): Promise<StoryCategoryPage> {
+  const category = params.category!
+  const offset = Math.max(0, Number(new URL(request.url).searchParams.get('offset')) || 0)
+  let items: Article[], total: number
+  try {
+    if (!import.meta.env.VITE_DIRECTUS_URL) throw new Error('no Directus')
+    ;[items, total] = await getDirectusCategoryStories(category, offset)
+  } catch (e) {
+    if (import.meta.env.VITE_DIRECTUS_URL) console.error(e) // Directus down → mock
+    // ponytail: mock has no categories — every category lists all mock stories
+    const all = [...new Map([stories.lead, ...stories.stories, ...stories.discovery, ...stories.guides, stories.best.feature, ...stories.best.items].map((a) => [a.id, a])).values()]
+    ;[items, total] = [all.slice(offset, offset + CATEGORY_PAGE_SIZE), all.length]
+  }
+  return {
+    category,
+    items,
+    page: Math.floor(offset / CATEGORY_PAGE_SIZE) + 1,
+    pages: Math.max(1, Math.ceil(total / CATEGORY_PAGE_SIZE)),
+    pageSize: CATEGORY_PAGE_SIZE,
+    taxonomy: stories.taxonomy,
+  }
+}
+
+async function getDirectusCategoryStories(category: string, offset: number): Promise<[Article[], number]> {
+  const client = await directusClient()
+  // category in the URL is its slug, or its name while slugs are empty ("News")
+  const filter = { _and: [{ archived: { _neq: true } }, { _or: [{ category: { slug: { _eq: category } } }, { category: { name: { _eq: category } } }] }] }
+  const [items, count] = await Promise.all([
+    client.request(readItems('story', { fields: STORY_CARD_FIELDS, filter, sort: ['-published_at'], limit: CATEGORY_PAGE_SIZE, offset })) as unknown as Promise<DxStory[]>,
+    client.request(aggregate('story', { aggregate: { count: '*' }, query: { filter } })) as unknown as Promise<{ count: string | number }[]>,
+  ])
+  return [items.map(toArticle), Number(count[0]?.count ?? 0)]
 }

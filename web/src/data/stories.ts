@@ -152,7 +152,7 @@ export const stories: StoriesPage = {
       label: 'Best of the best',
       image: 'https://www.the50.com/filestore/jpg/Heston%20Blumenthal_Nitro%20aperitif.jpg',
       alt: "Image of Heston Blumenthal's Nitro aperitif",
-      url: 'https://www.the50.com/stories/tags/Best+of+the+Best',
+      url: '#',
     },
     items: [
     {
@@ -189,81 +189,81 @@ export const stories: StoriesPage = {
     "featuredTags": [
       {
         "label": "The 50 Best Talks",
-        "url": "https://www.the50.com/stories/tags/The+50+Best+Talks"
+        "url": "#"
       },
       {
         "label": "Sustainability",
-        "url": "https://www.the50.com/stories/tags/Sustainability"
+        "url": "#"
       },
       {
         "label": "Travel",
-        "url": "https://www.the50.com/stories/tags/Travel"
+        "url": "#"
       }
     ],
     "archive": [
       {
         "label": "September 2026",
-        "url": "https://www.the50.com/stories/archive/9/2026"
+        "url": "#"
       },
       {
         "label": "August 2026",
-        "url": "https://www.the50.com/stories/archive/8/2026"
+        "url": "#"
       },
       {
         "label": "July 2026",
-        "url": "https://www.the50.com/stories/archive/7/2026"
+        "url": "#"
       },
       {
         "label": "June 2026",
-        "url": "https://www.the50.com/stories/archive/6/2026"
+        "url": "#"
       },
       {
         "label": "May 2026",
-        "url": "https://www.the50.com/stories/archive/5/2026"
+        "url": "#"
       }
     ],
     "categories": [
       {
         "label": "Features",
-        "url": "https://www.the50.com/stories/categories/Features"
+        "url": "#"
       },
       {
         "label": "Profiles",
-        "url": "https://www.the50.com/stories/categories/Profiles"
+        "url": "#"
       },
       {
         "label": "Travel",
-        "url": "https://www.the50.com/stories/categories/Travel"
+        "url": "#"
       },
       {
         "label": "Announcements",
-        "url": "https://www.the50.com/stories/categories/Announcements"
+        "url": "#"
       },
       {
         "label": "Events",
-        "url": "https://www.the50.com/stories/categories/Events"
+        "url": "#"
       }
     ],
     "authors": [
       {
         "label": "All Authors",
-        "url": "https://www.the50.com/stories/authors"
+        "url": "#"
       },
       {
         "label": "Emma Sleight",
-        "url": "https://www.the50.com/stories/authors/Emma+Sleight"
+        "url": "#"
       },
       {
         "label": "Rachael Hogg",
-        "url": "https://www.the50.com/stories/authors/Rachael+Hogg"
+        "url": "#"
       },
       {
         "label": "Marisa Cannon",
-        "url": "https://www.the50.com/stories/authors/Marisa+Cannon"
+        "url": "#"
       },
       {
         "label": "The 50 Articles",
-        "url": "https://www.the50.com/stories/authors/The+50+Articles"
+        "url": "#"
       }
     ]
   },

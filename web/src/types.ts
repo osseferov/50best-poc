@@ -100,8 +100,36 @@ export interface VenuePage {
   nearby: Venue[]
 }
 
+/** Story (article) page. `body` is rich-text HTML from Directus. */
+export interface StoryPage {
+  story: {
+    id: string
+    title: string
+    subtitle?: string
+    image: Image
+    author?: string
+    date?: string // ISO date
+    category?: string
+    tags: string[]
+    body: string
+  }
+  related: Article[]
+  taxonomy: StoriesPage['taxonomy']
+}
+
+/** /stories/categories/:category — one page of a category's stories. */
+export interface StoryCategoryPage {
+  category: string
+  items: Article[]
+  page: number // 1-based
+  pages: number
+  pageSize: number
+  taxonomy: StoriesPage['taxonomy']
+}
+
 export interface StoriesPage {
   lead: Article
+  latest?: Article[] // Directus `story`, newest first — rendered above the static `stories` grid
   stories: Article[]
   discovery: Article[]
   guides: Article[]

@@ -9,7 +9,6 @@ import { VenueCard } from '../components/cards'
 import { useSignIn } from '../components/SignIn'
 import { HeartOutline, ListAdd } from '../components/icons'
 
-const SEARCH = 'https://www.the50.com/discovery/search-results.html'
 const MAPS_KEY = import.meta.env.VITE_GOOGLE_MAPS_KEY as string | undefined
 
 /** Google place pin (Maps Embed API, needs the key) when there's a place id; plain coordinate pin otherwise. */
@@ -31,8 +30,8 @@ export default function Venue() {
         <div className="pagehead">
           <Crumbs trail={[
             { label: 'Discovery', url: '/discovery' },
-            { label: v.country, url: `${SEARCH}?${new URLSearchParams({ country: v.country })}` },
-            { label: v.city, url: `${SEARCH}?${new URLSearchParams({ town: v.city, country: v.country })}` },
+            { label: v.country, url: '#' },
+            { label: v.city, url: '#' },
           ]} />
         </div>
 

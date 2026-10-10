@@ -1,7 +1,8 @@
 import { Fragment } from 'react'
 import { SmartLink } from './SmartLink'
+import { useSignIn } from './SignIn'
 import { ArrowLong, ArrowShort } from './icons'
-import type { Link } from '../types'
+import type { Link, StoriesPage } from '../types'
 
 const LOGO = 'https://www.the50.com/filestore/svg/the-50-logo-white.svg'
 
@@ -32,7 +33,7 @@ export function Crumbs({ trail }: { trail: Link[] }) {
   return (
     <p className="crumbs">
       <SmartLink href="/">Home</SmartLink><span aria-hidden="true">/</span>
-      {trail.map((c) => <Fragment key={c.url}><SmartLink href={c.url}>{c.label}</SmartLink><span aria-hidden="true">/</span></Fragment>)}
+      {trail.map((c) => <Fragment key={c.label}><SmartLink href={c.url}>{c.label}</SmartLink><span aria-hidden="true">/</span></Fragment>)}
     </p>
   )
 }
@@ -49,6 +50,7 @@ export function RowTitle({ title, description }: { title: string; description?: 
 }
 
 export function SignupCTA() {
+  const signIn = useSignIn()
   return (
     <section className="signup">
       <div className="signup__inner">
@@ -62,8 +64,28 @@ export function SignupCTA() {
             ))}
           </ul>
         </div>
-        <button className="btn btn--on-black signup__btn" type="button">Register</button>
+        <button className="btn btn--on-black signup__btn" type="button" onClick={signIn}>Register</button>
       </div>
     </section>
+  )
+}
+
+const LinkList = ({ items }: { items: Link[] }) => <ul>{items.map((l) => <li key={l.label}><a href={l.url}>{l.label}</a></li>)}</ul>
+
+/** Stories footer nav: featured tags + archive / categories / tags / authors. */
+export function Taxonomy({ taxonomy }: { taxonomy: StoriesPage['taxonomy'] }) {
+  return (
+    <nav className="taxo" aria-label="Browse stories">
+      <div className="taxo__featured">
+        <p className="taxo__featured-label">Featured Tags</p>
+        <ul className="taxo__chips">{taxonomy.featuredTags.map((l) => <li key={l.label}><a href={l.url}>{l.label}</a></li>)}</ul>
+      </div>
+      <div className="taxo__inner">
+        <div className="taxo__col"><h3 className="taxo__heading">Archive</h3><LinkList items={taxonomy.archive} /></div>
+        <div className="taxo__col"><h3 className="taxo__heading">Categories</h3><LinkList items={taxonomy.categories} /></div>
+        <div className="taxo__col"><h3 className="taxo__heading">Featured Tags</h3><LinkList items={taxonomy.featuredTags} /></div>
+        <div className="taxo__col"><h3 className="taxo__heading">Authors</h3><LinkList items={taxonomy.authors} /></div>
+      </div>
+    </nav>
   )
 }
