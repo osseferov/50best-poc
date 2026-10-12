@@ -1411,3 +1411,108 @@ a.promo2__media:hover img { opacity: .85; }
   .scat__title { font-size: 33px; }
   .scat__grid { gap: 24px 16px; }
 }
+
+/* ============================================================================
+   main-menu ranking dropdown — matched to the50.com mega menu (desktop).
+   Grey left column of Directus published rankings, "Lists" on the right.
+   The page behind is dimmed by the panel's spread shadow, clipped above it.
+   ========================================================================== */
+.nav__link[aria-expanded="true"] { background: rgba(227,227,227,.95); color: var(--black); text-decoration: underline; text-underline-offset: 4px; }
+.mega { position: absolute; top: 100%; left: 0; right: 0; }
+.mega__panel {
+  display: flex; max-width: calc(var(--max) - 2 * var(--gutter)); margin: 0 auto; min-height: 120px;
+  background: var(--white); color: var(--black); border-radius: 0 0 8px 8px;
+  box-shadow: 0 2px 4px rgba(0,0,0,.25), 0 0 0 100vmax rgba(0,0,0,.2);
+  clip-path: inset(0 -100vmax -100vmax -100vmax);
+}
+.mega__rankings { display: flex; flex-direction: column; gap: 8px; width: 384px; flex-shrink: 0; padding: 16px; background: #efefef; border-radius: 0 0 0 8px; }
+.mega__ranking {
+  display: flex; align-items: center; justify-content: space-between; height: 40px; padding: 8px; border-radius: 4px;
+  font-size: 16px; line-height: 20px; letter-spacing: .44px; color: #696969;
+}
+.mega__ranking svg { width: 24px; height: 24px; flex-shrink: 0; }
+.mega__ranking.is-hot { background: var(--white); color: var(--black); }
+.mega__ranking.is-hot span { text-decoration: underline; text-underline-offset: 4px; }
+.mega__lists { display: flex; flex-direction: column; align-items: flex-start; padding: 16px 32px; }
+.mega__heading { margin-bottom: 8px; font-size: 12px; font-weight: 600; line-height: 24px; letter-spacing: .88px; text-transform: uppercase; color: #696969; }
+.mega__list { padding: 4px 0; margin-bottom: 12px; font-size: 16px; line-height: 20px; letter-spacing: .44px; }
+.mega__list:hover { text-decoration: underline; text-underline-offset: 4px; }
+@media (max-width: 920px) {
+  .mega { display: none; } /* phones/tablets use the drawer accordion */
+  .mmenu__link { width: 100%; }
+  .mmenu__link[aria-expanded="true"] svg { transform: rotate(90deg); }
+  .mmenu__sub { padding: 0 0 8px 16px; }
+  .mmenu__sublink { display: block; padding: 8px 0; font-size: 16px; color: var(--black); }
+  .mmenu__sublink--list { padding-left: 16px; color: var(--grey-four); }
+}
+
+/* ============================================================================
+   ranking landing — matched to the50.com/bars/best-in-the-world/
+   ========================================================================== */
+.rlead { max-width: var(--max); margin: 0 auto; padding: 32px var(--gutter) 0; }
+.rlead__hero { display: flex; align-items: center; margin-bottom: 15px; padding-bottom: 57px; text-align: center; }
+.rlead__hero img, .rlead__noimg { display: block; width: 50%; aspect-ratio: 624 / 299; object-fit: cover; background: var(--grey-wash); }
+.rlead__text { flex: 1; padding: 0 24px; }
+.rlead__title { margin-bottom: 12px; font-size: 33px; font-weight: 600; line-height: 1.2; letter-spacing: -0.02em; }
+.rlead__sub { font-size: 19px; line-height: 1.2; letter-spacing: .44px; color: var(--grey-four); }
+.rlead__hero:hover .rlead__title { text-decoration: underline; text-underline-offset: 4px; }
+.rlead__rule { width: 76%; height: 1px; margin: 0 auto 32px; border: 0; background: var(--grey-one); }
+.rlead__grid { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 25px 24px; }
+.rlead__item { display: block; padding-bottom: 12px; }
+.rlead__media { display: block; height: 258px; margin-bottom: 12px; background: var(--grey-wash); overflow: hidden; }
+.rlead__media img { width: 100%; height: 100%; object-fit: cover; }
+.rlead__name { display: inline-block; margin-bottom: 4px; font-size: 23px; font-weight: 600; line-height: 1.2; letter-spacing: -0.02em; }
+.rlead__item:hover .rlead__name { text-decoration: underline; text-underline-offset: 4px; }
+.rlead__caption { font-size: 16px; line-height: 1.2; letter-spacing: .44px; color: var(--grey-four); }
+.rlead + .films { margin-top: 80px; }
+
+.sfeed { max-width: var(--max); margin: 0 auto; padding: 80px var(--gutter) 0; }
+.sfeed__head { display: flex; align-items: baseline; justify-content: space-between; margin-bottom: 32px; }
+.sfeed__title { font-family: var(--font-display); font-size: 48px; font-weight: 400; line-height: 1; letter-spacing: -0.025em; text-transform: uppercase; }
+.sfeed__more { display: inline-flex; align-items: center; gap: 8px; font-size: 16px; font-weight: 600; letter-spacing: .44px; }
+.sfeed__more svg { width: 18px; height: 18px; }
+.sfeed__grid { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 24px; }
+
+.partners { max-width: var(--max); margin: 0 auto; padding: 80px var(--gutter) 40px; }
+.partners__head { display: flex; align-items: baseline; justify-content: space-between; margin-bottom: 40px; }
+.partners__title { font-family: var(--font-display); font-size: 48px; font-weight: 400; line-height: 1; letter-spacing: -0.025em; text-transform: uppercase; }
+.partners__more { font-size: 16px; font-weight: 600; letter-spacing: .44px; }
+.partners__more:hover { text-decoration: underline; }
+.partners__logos { display: flex; flex-wrap: wrap; justify-content: center; align-items: center; gap: 12px 24px; }
+.partners__logos img { display: block; width: 140px; height: 100px; object-fit: contain; }
+
+/* ============================================================================
+   ranking list (1-50 / 51-100) — matched to the50.com/.../list/1-50
+   Cards reuse .vcard; the type tag becomes a 27px serif rank.
+   ========================================================================== */
+.rlist { max-width: var(--max); margin: 0 auto; padding: 40px var(--gutter) 48px; }
+.rlist__title { margin-bottom: 24px; text-align: center; font-family: var(--font-display); font-size: 48px; font-weight: 400; line-height: 1; letter-spacing: -0.05em; }
+.rlist__tabs { display: flex; justify-content: center; gap: 0; margin-bottom: 40px; }
+.rlist__tabs a { display: block; min-width: 100px; height: 46px; padding: 12px 16px; border: 1px solid transparent; border-radius: 4px; font-size: 16px; font-weight: 600; line-height: 20px; text-align: center; }
+.rlist__tabs a.is-active { border-color: var(--black); }
+.rlist__tabs a:not(.is-active):hover { text-decoration: underline; text-underline-offset: 4px; }
+.rlist__grid { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 24px; }
+.rcard { width: auto; background: var(--grey-wash); }
+.rcard .vcard__media { aspect-ratio: 294 / 190; background: var(--grey-one); }
+.rcard .vcard__top { padding: 12px 0 8px; }
+.rcard__rank { font-family: var(--font-display); font-size: 27px; line-height: 27px; letter-spacing: .44px; }
+.rcard .vcard__name { margin-top: 0; }
+.rcard .vcard__place { margin-bottom: 16px; }
+.rlist__empty { padding: 40px 0; text-align: center; color: var(--grey-four); }
+
+@media (max-width: 920px) {
+  .rlead__grid, .sfeed__grid, .rlist__grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+}
+@media (max-width: 690px) {
+  .rlead { padding: 24px 20px 0; }
+  .rlead__hero { flex-direction: column; padding-bottom: 32px; }
+  .rlead__hero img, .rlead__noimg { width: 100%; margin-bottom: 20px; }
+  .rlead__title { font-size: 27px; }
+  .rlead__grid, .sfeed__grid { grid-template-columns: 1fr; }
+  .rlead__media { height: auto; aspect-ratio: 400 / 258; }
+  .sfeed, .partners { padding-left: 20px; padding-right: 20px; }
+  .sfeed__title, .partners__title { font-size: 33px; }
+  .rlist { padding: 24px 16px 48px; }
+  .rlist__title { font-size: 33px; margin-bottom: 21px; }
+  .rlist__grid { grid-template-columns: 1fr; }
+}

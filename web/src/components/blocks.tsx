@@ -2,7 +2,11 @@ import { Fragment } from 'react'
 import { SmartLink } from './SmartLink'
 import { useSignIn } from './SignIn'
 import { ArrowLong, ArrowShort } from './icons'
-import type { Link, StoriesPage } from '../types'
+import type { Article, Film, Link, Partner, StoriesPage } from '../types'
+import { Rail } from './Rail'
+import { ArticleCard, FilmCard } from './cards'
+import { KALEIDOSCOPE_SVG } from './kaleidoscope'
+import { imageUrl } from '../lib/image'
 
 const LOGO = 'https://www.the50.com/filestore/svg/the-50-logo-white.svg'
 
@@ -87,5 +91,52 @@ export function Taxonomy({ taxonomy }: { taxonomy: StoriesPage['taxonomy'] }) {
         <div className="taxo__col"><h3 className="taxo__heading">Authors</h3><LinkList items={taxonomy.authors} /></div>
       </div>
     </nav>
+  )
+}
+
+/** Black "Films" band with the kaleidoscope rule (homepage + ranking landing). */
+export function FilmsSection({ films }: { films: Film[] }) {
+  return (
+    <section className="films on-black">
+      <div className="films__inner">
+        <span className="films__rule" aria-hidden="true" dangerouslySetInnerHTML={{ __html: KALEIDOSCOPE_SVG }} />
+        <div className="films__content">
+          <SecHead title="Films" more={{ label: 'Watch more', url: '#' }} sub="Discover the people and places shaping the world's best hospitality." />
+          <div className="films__curated">
+            <Rail label="films" arrows="chevron">{films.map((f) => <FilmCard key={f.id} f={f} />)}</Rail>
+          </div>
+          <a className="btn btn--on-black btn-stacked" href="#">Watch more</a>
+        </div>
+      </div>
+    </section>
+  )
+}
+
+/** Ranking landing "Stories": 48px uppercase head + "View all articles", 4-column cards. */
+export function StoriesFeed({ stories }: { stories: Article[] }) {
+  if (!stories.length) return null
+  return (
+    <section className="sfeed">
+      <div className="sfeed__head">
+        <h2 className="sfeed__title">Stories</h2>
+        <SmartLink className="sfeed__more" href="/stories">View all articles <ArrowShort /></SmartLink>
+      </div>
+      <div className="sfeed__grid">{stories.map((a) => <ArticleCard key={a.id} a={a} light />)}</div>
+    </section>
+  )
+}
+
+/** "Our Partners" logo wall (static for now). */
+export function Partners({ partners }: { partners: Partner[] }) {
+  return (
+    <section className="partners">
+      <div className="partners__head">
+        <h2 className="partners__title">Our Partners</h2>
+        <a className="partners__more" href="#">Become a partner</a>
+      </div>
+      <div className="partners__logos">
+        {partners.map((p) => <a key={p.name} href="#"><img src={imageUrl(p.logo)} alt={p.name} width={140} height={100} loading="lazy" /></a>)}
+      </div>
+    </section>
   )
 }

@@ -6,12 +6,13 @@
  */
 import { aggregate, readItems, readSingleton } from '@directus/sdk'
 import type { LoaderFunctionArgs } from 'react-router'
-import type { Article, DiscoveryBlock, DiscoveryPage, HomePage, StoriesPage, StoryCategoryPage, StoryPage, Venue, VenuePage } from '../types'
+import type { Article, DiscoveryBlock, DiscoveryPage, HomePage, RankingNavItem, RankingPage, RankingSection, StoriesPage, StoryCategoryPage, StoryPage, Venue, VenuePage } from '../types'
 import { home } from '../data/home'
 import { discovery } from '../data/discovery'
 import { stories } from '../data/stories'
 import { venues } from '../data/venue'
 import { stories as storyPages } from '../data/story'
+import { FILMS, PARTNERS } from '../data/ranking'
 import { getPlaceKeyInfo } from '../lib/places'
 import { richTextAssets } from '../lib/image'
 
@@ -284,4 +285,71 @@ async function getDirectusCategoryStories(category: string, offset: number): Pro
     client.request(aggregate('story', { aggregate: { count: '*' }, query: { filter } })) as unknown as Promise<{ count: string | number }[]>,
   ])
   return [items.map(toArticle), Number(count[0]?.count ?? 0)]
+}
+
+// ── rankings: Directus published_ranking → main menu + /<section>/:slug pages ──
+
+/** event.event_type (and establishment.type) → URL section. Matched case-insensitively ("Restaurant" / "restaurant"). */
+const SECTION_OF: Record<string, RankingSection> = { restaurant: 'restaurants', bars: 'bars', hotels: 'hotels', vineyards: 'vineyards' }
+const TYPE_OF: Record<RankingSection, string> = { restaurants: 'restaurant', bars: 'bars', hotels: 'hotels', vineyards: 'vineyards' }
+export const SECTION_LABEL: Record<RankingSection, string> = { restaurants: 'Restaurants', bars: 'Bars', hotels: 'Hotels', vineyards: 'Vineyards' }
+
+// ponytail: published_ranking has no slug field — derived from the title; add a `slug` field if titles start colliding
+const slugify = (t: string) => t.normalize('NFKD').replace(/[\u0300-\u036f]/g, '').toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/^-|-$/g, '')
+
+interface DxPublishedRanking {
+  id: number
+  title: string
+  event: { id: number; event_type: string | null; banner_image: string | null } | null
+}
+
+async function getPublishedRankings(): Promise<(RankingNavItem & { event: DxPublishedRanking['event'] })[]> {
+  const client = await directusClient()
+  const items = (await client.request(readItems('published_ranking', {
+    fields: ['id', 'title', 'event.id', 'event.event_type', 'event.banner_image'],
+    sort: ['id'],
+  }))) as unknown as DxPublishedRanking[]
+  return items.flatMap((r) => {
+    const section = SECTION_OF[(r.event?.event_type ?? '').toLowerCase()]
+    return section ? [{ id: r.id, slug: slugify(r.title), title: r.title, section, event: r.event }] : []
+  })
+}
+
+/** Root loader: the rankings shown in the Restaurants / Bars / Hotels / Vineyards dropdowns. */
+export async function getRankingNav(): Promise<RankingNavItem[]> {
+  if (!import.meta.env.VITE_DIRECTUS_URL) return []
+  try {
+    return (await getPublishedRankings()).map(({ event: _event, ...nav }) => nav)
+  } catch (e) {
+    console.error(e) // Directus down → empty dropdowns, rest of the site still works
+    return []
+  }
+}
+
+/** Landing page and 1-50 / 51-100 list pages share this loader. Venues = `ranking` rows of the event whose establishment type matches the event type. */
+export async function getRankingPage(section: RankingSection, slug: string): Promise<RankingPage> {
+  if (!import.meta.env.VITE_DIRECTUS_URL) throw new Response('Rankings need Directus', { status: 404 })
+  const r = (await getPublishedRankings()).find((x) => x.section === section && x.slug === slug)
+  if (!r || !r.event) throw new Response('Ranking not found', { status: 404 })
+  const client = await directusClient()
+  const [rows, linked] = await Promise.all([
+    client.request(readItems('ranking', {
+      fields: ['place', ...VENUE_FIELDS.map((f) => `establishment.${f}`)],
+      filter: { event: { _eq: r.event.id }, establishment: { type: { _eq: TYPE_OF[section] } } },
+      sort: ['place'],
+      limit: -1,
+    })) as unknown as Promise<{ place: number; establishment: DxEstablishment | null }[]>,
+    client.request(readItems('published_ranking', {
+      fields: STORY_CARD_FIELDS.map((f) => `stories.story_id.${f}`),
+      filter: { id: { _eq: r.id } },
+      limit: 1,
+    })) as unknown as Promise<{ stories: { story_id: DxStory | null }[] }[]>,
+  ])
+  return {
+    ranking: { id: r.id, slug: r.slug, title: r.title, section, image: r.event.banner_image ?? undefined },
+    entries: rows.flatMap((x) => (x.establishment ? [{ place: x.place, venue: toVenue(x.establishment) }] : [])),
+    stories: (linked[0]?.stories ?? []).flatMap((x) => (x.story_id ? [toArticle(x.story_id)] : [])),
+    films: FILMS,
+    partners: PARTNERS,
+  }
 }

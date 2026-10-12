@@ -127,6 +127,36 @@ export interface StoryCategoryPage {
   taxonomy: StoriesPage['taxonomy']
 }
 
+export interface Partner {
+  name: string
+  logo: Image
+}
+
+// ── rankings: /restaurants|bars|hotels|vineyards/:slug ────────────────
+
+export type RankingSection = 'restaurants' | 'bars' | 'hotels' | 'vineyards'
+
+/** A Directus `published_ranking`, as it appears in the main-menu dropdown. */
+export interface RankingNavItem {
+  id: number
+  slug: string
+  title: string
+  section: RankingSection
+}
+
+export interface RankingEntry {
+  place: number
+  venue: Venue
+}
+
+export interface RankingPage {
+  ranking: RankingNavItem & { image?: Image }
+  entries: RankingEntry[] // venues of the event's type, by place
+  stories: Article[]
+  films: Film[]
+  partners: Partner[]
+}
+
 export interface StoriesPage {
   lead: Article
   latest?: Article[] // Directus `story`, newest first — rendered above the static `stories` grid

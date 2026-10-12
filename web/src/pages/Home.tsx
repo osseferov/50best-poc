@@ -5,9 +5,8 @@ import { Nav } from '../components/Nav'
 import { Footer } from '../components/Footer'
 import { Rail } from '../components/Rail'
 import { SmartLink } from '../components/SmartLink'
-import { SecHead, SignupCTA } from '../components/blocks'
-import { DestinationCard, ExploreCard, FilmCard, StoryCard } from '../components/cards'
-import { KALEIDOSCOPE_SVG } from '../components/kaleidoscope'
+import { FilmsSection, SecHead, SignupCTA } from '../components/blocks'
+import { DestinationCard, ExploreCard, StoryCard } from '../components/cards'
 
 export default function Home() {
   const { hero, explore, destinations, stories, films } = useLoaderData() as HomePage
@@ -51,18 +50,7 @@ export default function Home() {
           <SmartLink className="btn btn--outline btn-stacked" href="/stories">Read more</SmartLink>
         </section>
 
-        <section className="films on-black">
-          <div className="films__inner">
-            <span className="films__rule" aria-hidden="true" dangerouslySetInnerHTML={{ __html: KALEIDOSCOPE_SVG }} />
-            <div className="films__content">
-              <SecHead title="Films" more={{ label: 'Watch more', url: '#' }} sub="Discover the people and places shaping the world's best hospitality." />
-              <div className="films__curated">
-                <Rail label="films" arrows="chevron">{films.map((f) => <FilmCard key={f.id} f={f} />)}</Rail>
-              </div>
-              <a className="btn btn--on-black btn-stacked" href="#">Watch more</a>
-            </div>
-          </div>
-        </section>
+        <FilmsSection films={films} />
       </main>
       <Footer />
     </>

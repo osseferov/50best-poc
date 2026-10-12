@@ -1,0 +1,46 @@
+// Static blocks for the ranking pages, lifted from the live the50.com/bars/best-in-the-world/ (no Directus data yet).
+import type { Film, Partner } from '../types'
+
+export const FILMS: Film[] = [
+  { id: 'efRzZbOQJoU', title: "Highlights from The 50 Best Bars", duration: '', image: 'https://i.ytimg.com/vi/efRzZbOQJoU/mqdefault.jpg', alt: "Highlights from The 50 Best Bars", url: 'https://www.youtube.com/watch?v=efRzZbOQJoU' },
+  { id: 'znCvGzh85pA', title: "The 50 Best Bars 2026: 1-50 List", duration: '', image: 'https://i.ytimg.com/vi/znCvGzh85pA/mqdefault.jpg', alt: "The 50 Best Bars 2026: 1-50 List", url: 'https://www.youtube.com/watch?v=znCvGzh85pA' },
+  { id: 'kj313P5M_nM', title: "The 50 Best Bars 2026: Extended 51-100 List", duration: '', image: 'https://i.ytimg.com/vi/kj313P5M_nM/mqdefault.jpg', alt: "The 50 Best Bars 2026: Extended 51-100 List", url: 'https://www.youtube.com/watch?v=kj313P5M_nM' },
+  { id: 'eooHnYL-Z0c', title: "The 50 Best Bars 2026 | Live Awards Ceremony in Milan", duration: '', image: 'https://i.ytimg.com/vi/eooHnYL-Z0c/mqdefault.jpg', alt: "The 50 Best Bars 2026 | Live Awards Ceremony in Milan", url: 'https://www.youtube.com/watch?v=eooHnYL-Z0c' },
+]
+
+export const PARTNERS: Partner[] = [
+  { name: "Perrier", logo: "https://www.the50.com/bars/best-in-the-world/filestore/jpg/99E_P_PERI001_PERRIER_LOGO_GREEN_TYPO.jpg" },
+  { name: "SevenRooms", logo: "https://www.the50.com/bars/best-in-the-world/filestore/jpg/new-7r-logo.jpg" },
+  { name: "DoorDash", logo: "https://www.the50.com/bars/best-in-the-world/filestore/jpg/Doordash-Logo-tier2.jpg" },
+  { name: "Michter's", logo: "https://www.the50.com/bars/best-in-the-world/filestore/jpg/new michters logo(1).jpg" },
+  { name: "Nikka Whisky", logo: "https://www.the50.com/bars/best-in-the-world/filestore/jpg/WorldBars-nikkawhisky-logo.jpg" },
+  { name: "Ketel One", logo: "https://www.the50.com/bars/best-in-the-world/filestore/jpg/WorldBars-ketelone-logo.jpg" },
+  { name: "Three Cents", logo: "https://www.the50.com/bars/best-in-the-world/filestore/jpg/three-cents-logo-new.jpg" },
+  { name: "Mezcal Los Siete Misterios", logo: "https://www.the50.com/bars/best-in-the-world/filestore/jpg/Los-Siete-Misterios-Mezcal-logo.jpg" },
+  { name: "NOAM", logo: "https://www.the50.com/bars/best-in-the-world/filestore/jpg/noam-new-logo.jpg" },
+  { name: "Roku Gin", logo: "https://www.the50.com/bars/best-in-the-world/filestore/jpg/AsiaBars-RokuGin-Logo3.jpg" },
+  { name: "Altos", logo: "https://www.the50.com/bars/best-in-the-world/filestore/jpg/altos-new-logo.jpg" },
+  { name: "Cointreau", logo: "https://www.the50.com/bars/best-in-the-world/filestore/jpg/new-cointreau-logo.jpg" },
+  { name: "Rémy Martin", logo: "https://www.the50.com/bars/best-in-the-world/filestore/jpg/W50BB21-RemyMartin-Logo.jpg" },
+  { name: "Monkey Shoulder", logo: "https://www.the50.com/bars/best-in-the-world/filestore/jpg/MS logo new.jpg" },
+  { name: "Campari", logo: "https://www.the50.com/bars/best-in-the-world/filestore/jpg/WorldBars-campari-logo.jpg" },
+  { name: "Mr Black", logo: "https://www.the50.com/bars/best-in-the-world/filestore/jpg/mr-black-logo.jpg" },
+  { name: "Torres Brandy", logo: "https://www.the50.com/bars/best-in-the-world/filestore/jpg/Torres-Brandy-Logo.jpg" },
+  { name: "LAV HORECA", logo: "https://www.the50.com/bars/best-in-the-world/filestore/jpg/lav-heroca-logo.jpg" },
+  { name: "Disaronno", logo: "https://www.the50.com/bars/best-in-the-world/filestore/jpg/disaronno-new-logo.jpg" },
+  { name: "Amaro Lucano", logo: "https://www.the50.com/bars/best-in-the-world/filestore/jpg/lucano-new-logo.jpg" },
+  { name: "Mancino Vermouth", logo: "https://www.the50.com/bars/best-in-the-world/filestore/jpg/WorldBars-mancino-logo.jpg" },
+  { name: "St-Germain", logo: "https://www.the50.com/bars/best-in-the-world/filestore/jpg/stgermain-logo.jpg" },
+  { name: "Almave", logo: "https://www.the50.com/bars/best-in-the-world/filestore/jpg/almave-logo.jpg" },
+  { name: "Polot 1882", logo: "https://www.the50.com/bars/best-in-the-world/filestore/jpg/polot-logo.jpg" },
+  { name: "Zoppis", logo: "https://www.the50.com/bars/best-in-the-world/filestore/jpg/zoppis logo new.jpg" },
+  { name: "Parmigiano Reggiano", logo: "https://www.the50.com/bars/best-in-the-world/filestore/jpg/parm reg logo new.jpg" },
+  { name: "The Doping", logo: "https://www.the50.com/bars/best-in-the-world/filestore/jpg/the doping-Paris-logo.jpg" },
+  { name: "Bulgari Hotel Milano", logo: "https://www.the50.com/bars/best-in-the-world/filestore/jpg/bulgari logo new.jpg" },
+  { name: "Ceresio7", logo: "https://www.the50.com/bars/best-in-the-world/filestore/jpg/ceresio 7 logo.jpg" },
+  { name: "Excelsior Hotel Gallia", logo: "https://www.the50.com/bars/best-in-the-world/filestore/jpg/excelsior logo new.jpg" },
+  { name: "Casa Brera", logo: "https://www.the50.com/bars/best-in-the-world/filestore/jpg/casa brera logo new.jpg" },
+  { name: "Portrait Milano", logo: "https://www.the50.com/bars/best-in-the-world/filestore/jpg/portrait milano-logo.jpg" },
+  { name: "Deodato Arte", logo: "https://www.the50.com/bars/best-in-the-world/filestore/jpg/deodato logo new.jpg" },
+  { name: "Sustainable Restaurant Association", logo: "https://www.the50.com/bars/best-in-the-world/filestore/jpg/SRA-Logo-cropped.jpg" },
+]
