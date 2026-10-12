@@ -121,13 +121,14 @@ async function getDirectusVenuePage(slug: string): Promise<VenuePage | undefined
   if (!e) return undefined
   const placeId = e.google_place_id?.trim().split(/\s/)[0] || undefined // editors paste "<id> <address>"; ids never contain spaces
 
-  const [nearby, keyInfo] = await Promise.all([
+  const [nearby, keyInfo, accolades] = await Promise.all([
     client.request(readItems('establishment', {
       fields: VENUE_FIELDS,
       filter: { city: { _eq: e.city }, id: { _neq: e.id } }, // ponytail: same-city match; switch to a _dwithin on `location` for real distance
       limit: 8,
     })) as unknown as Promise<DxEstablishment[]>,
     getKeyInfo(placeId, toVenue(e).type),
+    getAccolades(e.id).catch((err) => (console.error(err), [] as string[])), // no accolades block rather than no page
   ])
 
   return {
@@ -139,6 +140,7 @@ async function getDirectusVenuePage(slug: string): Promise<VenuePage | undefined
       address: e.address ?? undefined,
       map: e.location ? { lat: e.location.coordinates[1], lng: e.location.coordinates[0] } : undefined,
       placeId,
+      accolades,
     },
     nearby: nearby.map(toVenue),
   }
@@ -352,4 +354,22 @@ export async function getRankingPage(section: RankingSection, slug: string): Pro
     films: FILMS,
     partners: PARTNERS,
   }
+}
+
+/** Accolades on a venue page: its `ranking` places in events that have a published ranking, newest event first. */
+async function getAccolades(establishmentId: number): Promise<string[]> {
+  const client = await directusClient()
+  const [rows, published] = await Promise.all([
+    client.request(readItems('ranking', {
+      fields: ['place', 'event.id'],
+      filter: { establishment: { _eq: establishmentId } },
+      sort: ['-event.date_created'],
+      limit: -1,
+    })) as unknown as Promise<{ place: number; event: { id: number } | null }[]>,
+    getPublishedRankings(),
+  ])
+  // ponytail: an event with several published rankings is labelled with the first one's title
+  const titleOf = new Map<number, string>()
+  for (const r of published) if (r.event && !titleOf.has(r.event.id)) titleOf.set(r.event.id, r.title)
+  return rows.flatMap((r) => (r.event && titleOf.has(r.event.id) ? [`No.${r.place} ${titleOf.get(r.event.id)}`] : []))
 }

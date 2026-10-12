@@ -48,6 +48,15 @@ export default function Venue() {
             <button className="venue__btn" type="button" onClick={signIn}><HeartOutline />Add to favourites</button>
             <button className="venue__btn" type="button" onClick={signIn}><ListAdd />Add to lists</button>
           </div>
+          {v.accolades?.length ? (
+            <div className="venue__accolades">
+              <img src="https://www.the50.com/filestore/svg/the-50-logo-black.svg" alt="The 50" width={64} />
+              <ul>
+                <li className="venue__accolades-heading">Accolades</li>
+                {v.accolades.map((a) => <li key={a}>{a}</li>)}
+              </ul>
+            </div>
+          ) : null}
           <div className="venue__desc" dangerouslySetInnerHTML={{ __html: v.description }} />
 
           {(v.price || v.hours?.length || v.phone || v.website) && (

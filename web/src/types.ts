@@ -89,6 +89,7 @@ export interface VenueDetail extends Venue {
   address?: string
   map?: { lat: number; lng: number }
   placeId?: string // Google place id: map pin + Key Information
+  accolades?: string[] // "No.3 Best 50 in Asia" — past placings in published rankings, newest first
   price?: string // full line, e.g. "Average price per person $66"
   hours?: string[] // one line per day (or one summary line)
   phone?: string
