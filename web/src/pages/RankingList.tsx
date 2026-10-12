@@ -11,13 +11,13 @@ import { AddToList, Heart } from '../components/icons'
 
 export const RANGES = { '1-50': [1, 50], '51-100': [51, 100] } as const
 
-/** Ranked list — matched to the50.com/bars/best-in-the-world/list/1-50: title, range tabs, venue cards counting down. */
+/** Ranked list — matched to the50.com/bars/best-in-the-world/list/1-50: title, range tabs, venue cards in rank order. */
 export default function RankingList() {
   const { ranking: r, entries, partners } = useLoaderData() as RankingPage
   const range = useParams().range as keyof typeof RANGES
   const [from, to] = RANGES[range]
   const base = `/${r.section}/${r.slug}`
-  const shown = entries.filter((e) => e.place >= from && e.place <= to).reverse() // live counts down: 50 → 1
+  const shown = entries.filter((e) => e.place >= from && e.place <= to) // ascending 1 → 50 (live counts down; client asked for ascending)
   const signIn = useSignIn()
   return (
     <>
