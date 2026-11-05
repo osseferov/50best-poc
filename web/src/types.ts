@@ -80,6 +80,9 @@ export type DiscoveryBlock =
 export interface DiscoveryPage {
   hero: { title: string; subtitle: string; image: Image }
   blocks: DiscoveryBlock[]
+  /** Directus-only: singleton id (for Visual Editor attributes) + SEO meta overrides. Absent on mock data. */
+  landingId?: number
+  meta?: { title?: string; description?: string }
 }
 
 /** Venue (establishment) detail page. `description` is rich-text HTML from Directus. */

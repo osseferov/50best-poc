@@ -1,4 +1,6 @@
-import { useLoaderData } from 'react-router'
+import { useEffect } from 'react'
+import { useLoaderData, useRevalidator } from 'react-router'
+import { apply, setAttr } from '@directus/visual-editing'
 import type { DiscoveryBlock, DiscoveryPage } from '../types'
 import { imageUrl } from '../lib/image'
 import { Nav } from '../components/Nav'
@@ -57,21 +59,39 @@ function Block({ b }: { b: DiscoveryBlock }) {
 }
 
 export default function Discovery() {
-  const { hero, blocks } = useLoaderData() as DiscoveryPage
+  const { hero, blocks, landingId, meta } = useLoaderData() as DiscoveryPage
+  const { revalidate } = useRevalidator()
+
+  // Directus Visual Editor: activates the data-directus attributes below when the page is framed by Directus.
+  useEffect(() => {
+    const url = import.meta.env.VITE_DIRECTUS_URL
+    if (!url || landingId === undefined) return
+    let handle: Awaited<ReturnType<typeof apply>>
+    let cancelled = false
+    apply({ directusUrl: url, onSaved: () => void revalidate() }).then((h) => {
+      if (cancelled) h?.remove()
+      else handle = h
+    })
+    return () => { cancelled = true; handle?.remove() }
+  }, [landingId, revalidate])
+
+  const edit = (fields: string | string[], mode: 'popover' | 'drawer' | 'modal' = 'popover') =>
+    landingId === undefined ? undefined : setAttr({ collection: 'discovery_landing', item: landingId, fields, mode })
+
   return (
     <>
-      <title>Discovery | The 50</title>
-      <meta name="description" content="Explore the best restaurants, bars, hotels and vineyards around the world — editors' picks, city spotlights and wine regions." />
+      <title>{meta?.title || 'Discovery | The 50'}</title>
+      <meta name="description" content={meta?.description || "Explore the best restaurants, bars, hotels and vineyards around the world — editors' picks, city spotlights and wine regions."} />
       <Nav search />
       <main id="content">
-        <div className="pagehead pagehead--split">
+        <div className="pagehead pagehead--split" data-directus={edit(['meta_title', 'meta_description'], 'drawer')}>
           <div>
             <Crumbs trail={[{ label: 'Discovery', url: '/discovery' }]} />
             <img className="pagehead__brand" src="https://www.the50.com/filestore/svg/the-50-logo-discovery.svg" alt="The 50 Discovery" height={54} />
-            <h1 className="pagehead__title">{hero.title}</h1>
-            <p className="pagehead__sub">{hero.subtitle}</p>
+            <h1 className="pagehead__title" data-directus={edit('hero_title')}>{hero.title}</h1>
+            <p className="pagehead__sub" data-directus={edit('hero_subtitle')}>{hero.subtitle}</p>
           </div>
-          <div className="pagehead__media"><img src={imageUrl(hero.image, 1200)} alt="The 50 Discovery" /></div>
+          <div className="pagehead__media" data-directus={edit('hero_image', 'modal')}><img src={imageUrl(hero.image, 1200)} alt="The 50 Discovery" /></div>
         </div>
         <hr className="pagehead__hr pagehead__hr--wide" />
         {blocks.map((b) => <Block key={b.id} b={b} />)}
