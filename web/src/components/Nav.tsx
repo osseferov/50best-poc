@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react'
-import { Link, NavLink, useLocation, useRouteLoaderData } from 'react-router'
+import { Link, useLoaderData, useLocation } from '@tanstack/react-router'
 import type { RankingNavItem, RankingSection } from '../types'
 import { useSignIn } from './SignIn'
 import { Burger, ChevronRight, Close, MenuChevron, Search } from './icons'
@@ -25,7 +25,7 @@ export const Wordmark = () => (
 
 function Item({ name, to, className, children }: { name: string; to: string; className: string; children?: React.ReactNode }) {
   return to.startsWith('/')
-    ? <NavLink className={className} to={to}>{children ?? name}</NavLink>
+    ? <Link className={className} to={to as string} activeOptions={{ exact: to === '/' }}>{children ?? name}</Link> // sets aria-current="page" when active
     : <a className={className} href={to}>{children ?? name}</a>
 }
 
@@ -34,7 +34,7 @@ export function Nav({ search = false }: { search?: boolean }) {
   const signIn = useSignIn()
   const { pathname } = useLocation()
   // Directus published rankings → the Restaurants / Bars / Hotels / Vineyards dropdowns (2 levels: ranking → lists)
-  const rankings = (useRouteLoaderData('root') as RankingNavItem[] | undefined) ?? []
+  const rankings: RankingNavItem[] = useLoaderData({ from: '__root__' }) ?? []
   const inSection = (s?: RankingSection) => rankings.filter((r) => r.section === s)
   const [mega, setMega] = useState<RankingSection | null>(null)
   const [hot, setHot] = useState(0) // highlighted ranking in the open dropdown
@@ -111,7 +111,7 @@ export function Nav({ search = false }: { search?: boolean }) {
             <ul className="mega__rankings">
               {megaItems.map((r, i) => (
                 <li key={r.id}>
-                  <Link className={`mega__ranking${r === hotItem ? ' is-hot' : ''}`} to={`/${r.section}/${r.slug}`} onMouseEnter={() => setHot(i)} onFocus={() => setHot(i)}>
+                  <Link className={`mega__ranking${r === hotItem ? ' is-hot' : ''}`} to="/$section/$slug" params={{ section: r.section, slug: r.slug }} onMouseEnter={() => setHot(i)} onFocus={() => setHot(i)}>
                     <span>{r.title}</span><ChevronRight />
                   </Link>
                 </li>
@@ -119,7 +119,7 @@ export function Nav({ search = false }: { search?: boolean }) {
             </ul>
             <div className="mega__lists">
               <p className="mega__heading">Lists</p>
-              {LISTS.map((k) => <Link key={k} className="mega__list" to={`/${hotItem.section}/${hotItem.slug}/list/${k}`}>{k}</Link>)}
+              {LISTS.map((k) => <Link key={k} className="mega__list" to="/$section/$slug/list/$range" params={{ section: hotItem.section, slug: hotItem.slug, range: k }}>{k}</Link>)}
             </div>
           </div>
         </div>
@@ -149,8 +149,8 @@ export function Nav({ search = false }: { search?: boolean }) {
                     <ul className="mmenu__sub">
                       {sub.map((r) => (
                         <li key={r.id}>
-                          <Link className="mmenu__sublink" to={`/${r.section}/${r.slug}`}>{r.title}</Link>
-                          {LISTS.map((k) => <Link key={k} className="mmenu__sublink mmenu__sublink--list" to={`/${r.section}/${r.slug}/list/${k}`}>{k}</Link>)}
+                          <Link className="mmenu__sublink" to="/$section/$slug" params={{ section: r.section, slug: r.slug }}>{r.title}</Link>
+                          {LISTS.map((k) => <Link key={k} className="mmenu__sublink mmenu__sublink--list" to="/$section/$slug/list/$range" params={{ section: r.section, slug: r.slug, range: k }}>{k}</Link>)}
                         </li>
                       ))}
                     </ul>

@@ -1,5 +1,5 @@
 import { useEffect } from 'react'
-import { useLoaderData, useRevalidator } from 'react-router'
+import { useLoaderData, useRouter } from '@tanstack/react-router'
 import { apply, setAttr } from '@directus/visual-editing'
 import type { DiscoveryBlock, DiscoveryPage } from '../types'
 import { imageUrl } from '../lib/image'
@@ -59,21 +59,21 @@ function Block({ b }: { b: DiscoveryBlock }) {
 }
 
 export default function Discovery() {
-  const { hero, blocks, landingId, meta } = useLoaderData() as DiscoveryPage
-  const { revalidate } = useRevalidator()
+  const { hero, blocks, landingId, meta, directusUrl } = useLoaderData({ strict: false }) as DiscoveryPage
+  const router = useRouter()
 
   // Directus Visual Editor: activates the data-directus attributes below when the page is framed by Directus.
+  // `directusUrl` is public runtime config from the loader (the origin of DIRECTUS_URL), not a build-time var.
   useEffect(() => {
-    const url = import.meta.env.VITE_DIRECTUS_URL
-    if (!url || landingId === undefined) return
+    if (!directusUrl || landingId === undefined) return
     let handle: Awaited<ReturnType<typeof apply>>
     let cancelled = false
-    apply({ directusUrl: url, onSaved: () => void revalidate() }).then((h) => {
+    apply({ directusUrl, onSaved: () => void router.invalidate() }).then((h) => {
       if (cancelled) h?.remove()
       else handle = h
     })
     return () => { cancelled = true; handle?.remove() }
-  }, [landingId, revalidate])
+  }, [directusUrl, landingId, router])
 
   const edit = (fields: string | string[], mode: 'popover' | 'drawer' | 'modal' = 'popover') =>
     landingId === undefined ? undefined : setAttr({ collection: 'discovery_landing', item: landingId, fields, mode })

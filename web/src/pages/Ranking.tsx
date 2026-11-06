@@ -1,4 +1,4 @@
-import { useLoaderData } from 'react-router'
+import { useLoaderData } from '@tanstack/react-router'
 import type { RankingPage } from '../types'
 import { SECTION_LABEL } from '../api/pages'
 import { imageUrl } from '../lib/image'
@@ -9,7 +9,7 @@ import { Crumbs, FilmsSection, Partners, StoriesFeed } from '../components/block
 
 /** Ranking landing — matched to the50.com/bars/best-in-the-world/: hero → top-9 grid → films → stories → partners. */
 export default function Ranking() {
-  const { ranking: r, entries, stories, films, partners } = useLoaderData() as RankingPage
+  const { ranking: r, entries, stories, films, partners } = useLoaderData({ strict: false }) as RankingPage
   const base = `/${r.section}/${r.slug}`
   const label = SECTION_LABEL[r.section]
   return (

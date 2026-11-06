@@ -83,6 +83,8 @@ export interface DiscoveryPage {
   /** Directus-only: singleton id (for Visual Editor attributes) + SEO meta overrides. Absent on mock data. */
   landingId?: number
   meta?: { title?: string; description?: string }
+  /** Public Directus origin (runtime config) for the Visual Editor. */
+  directusUrl?: string
 }
 
 /** Venue (establishment) detail page. `description` is rich-text HTML from Directus. */

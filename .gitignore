@@ -12,6 +12,9 @@ scratch/
 # Build / deps
 node_modules/
 dist/
+.output/
+.nitro/
+.tanstack/
 .vercel/
 
 # Secrets

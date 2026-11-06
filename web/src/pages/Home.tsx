@@ -1,4 +1,4 @@
-import { useLoaderData } from 'react-router'
+import { useLoaderData } from '@tanstack/react-router'
 import type { HomePage } from '../types'
 import { imageUrl } from '../lib/image'
 import { Nav } from '../components/Nav'
@@ -9,7 +9,7 @@ import { FilmsSection, SecHead, SignupCTA } from '../components/blocks'
 import { DestinationCard, ExploreCard, StoryCard } from '../components/cards'
 
 export default function Home() {
-  const { hero, explore, destinations, stories, films } = useLoaderData() as HomePage
+  const { hero, explore, destinations, stories, films } = useLoaderData({ strict: false }) as HomePage
   return (
     <>
       <title>The 50 | Best Restaurants, Bars, Hotels &amp; Vineyards</title>

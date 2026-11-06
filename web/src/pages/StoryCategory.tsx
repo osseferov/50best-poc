@@ -1,4 +1,4 @@
-import { Link, useLoaderData } from 'react-router'
+import { Link, useLoaderData } from '@tanstack/react-router'
 import type { StoryCategoryPage } from '../types'
 import { Nav } from '../components/Nav'
 import { Footer } from '../components/Footer'
@@ -8,28 +8,28 @@ import { ArticleCard } from '../components/cards'
 /** Live pager: << < [current … +5] > >>, windowed so the last pages still show six numbers. */
 function Pager({ page, pages, pageSize }: Pick<StoryCategoryPage, 'page' | 'pages' | 'pageSize'>) {
   if (pages < 2) return null
-  const to = (p: number) => (p > 1 ? `?offset=${(p - 1) * pageSize}` : '?')
+  const to = (p: number) => ({ to: '.', search: { offset: p > 1 ? (p - 1) * pageSize : undefined } }) as const
   const first = Math.max(1, Math.min(page, pages - 5))
   const nums = Array.from({ length: Math.min(6, pages - first + 1) }, (_, i) => first + i)
   return (
     <nav className="pager" aria-label="Pagination">
       <ul>
-        {page > 1 && <li><Link to={to(1)} aria-label="First page">&lt;&lt;</Link></li>}
-        {page > 1 && <li><Link to={to(page - 1)} aria-label="Previous page">&lt;</Link></li>}
+        {page > 1 && <li><Link {...to(1)}aria-label="First page">&lt;&lt;</Link></li>}
+        {page > 1 && <li><Link {...to(page - 1)}aria-label="Previous page">&lt;</Link></li>}
         {nums.map((n) => (
           <li key={n} className={n === page ? 'is-active' : undefined}>
-            <Link to={to(n)} aria-current={n === page ? 'page' : undefined}>{n}</Link>
+            <Link {...to(n)}aria-current={n === page ? 'page' : undefined}>{n}</Link>
           </li>
         ))}
-        {page < pages && <li><Link to={to(page + 1)} aria-label="Next page">&gt;</Link></li>}
-        {page < pages && <li><Link to={to(pages)} aria-label="Last page">&gt;&gt;</Link></li>}
+        {page < pages && <li><Link {...to(page + 1)}aria-label="Next page">&gt;</Link></li>}
+        {page < pages && <li><Link {...to(pages)}aria-label="Last page">&gt;&gt;</Link></li>}
       </ul>
     </nav>
   )
 }
 
 export default function StoryCategory() {
-  const { category, items, page, pages, pageSize, taxonomy } = useLoaderData() as StoryCategoryPage
+  const { category, items, page, pages, pageSize, taxonomy } = useLoaderData({ strict: false }) as StoryCategoryPage
   return (
     <>
       <title>{`${category} | Stories | The 50`}</title>

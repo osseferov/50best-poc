@@ -1,5 +1,5 @@
 import { useRef, useState } from 'react'
-import { useLoaderData } from 'react-router'
+import { useLoaderData } from '@tanstack/react-router'
 import type { Article, StoryPage } from '../types'
 import { imageUrl } from '../lib/image'
 import { Nav } from '../components/Nav'
@@ -69,7 +69,7 @@ function DiscoverMore({ items }: { items: Article[] }) {
 }
 
 export default function Story() {
-  const { story: s, related, taxonomy } = useLoaderData() as StoryPage
+  const { story: s, related, taxonomy } = useLoaderData({ strict: false }) as StoryPage
   const signIn = useSignIn()
   return (
     <>

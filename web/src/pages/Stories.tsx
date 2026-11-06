@@ -1,4 +1,4 @@
-import { useLoaderData } from 'react-router'
+import { useLoaderData } from '@tanstack/react-router'
 import type { Article, Link, StoriesPage } from '../types'
 import { imageUrl } from '../lib/image'
 import { Nav } from '../components/Nav'
@@ -21,7 +21,7 @@ const StoriesGrid = ({ items }: { items: Article[] }) => (
 )
 
 export default function Stories() {
-  const { lead, latest, stories, discovery, guides, best, taxonomy } = useLoaderData() as StoriesPage
+  const { lead, latest, stories, discovery, guides, best, taxonomy } = useLoaderData({ strict: false }) as StoriesPage
   const signIn = useSignIn()
   return (
     <>

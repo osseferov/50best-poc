@@ -4,8 +4,11 @@
  */
 import { aggregate, readItems, readSingleton } from '@directus/sdk'
 import type { Article, DiscoveryBlock, RankingNavItem, RankingPage, RankingSection, StoryPage, Venue, VenuePage } from '../src/types'
-import { client, directusUrl } from './directus.js'
-import { NotFound } from './http.js'
+import { client, directusToken, directusUrl } from './directus.js'
+import { getPlaceKeyInfo } from './places.js'
+
+/** False when Directus isn't configured: server functions then return null and pages fall back to the bundled mock data. */
+export const isLive = () => !!(directusUrl() && directusToken())
 
 /** Embedded `${DIRECTUS_URL}/assets/<id>…` URLs in rich text → the same-origin asset proxy (no token in the browser). */
 function richTextAssets(html: string): string {
@@ -99,29 +102,42 @@ export async function getDiscoveryLanding(): Promise<DiscoveryLanding> {
 
 // ── venue page ─────────────────────────────────────────────────────────
 
-/** `slug` may also be a numeric id. Key Information (Google Places) is added by the browser, not here. */
-export async function getVenue(slug: string): Promise<VenuePage> {
+/** Key Information is fetched live from Google Places (never stored — Google's terms); hidden without a place id. */
+async function getKeyInfo(placeId: string | undefined, type: Venue['type']) {
+  if (!placeId || !process.env.GOOGLE_MAPS_KEY) return {} // no place id → section hidden
+  try {
+    return await getPlaceKeyInfo(placeId, type)
+  } catch (e) {
+    console.error(e) // Google down / bad place id → page still renders, without Key Information
+    return {}
+  }
+}
+
+/** `slug` may also be a numeric id. Key Information comes live from Google Places (server-side key). */
+export async function getVenue(slug: string): Promise<VenuePage | null> {
   const c = client()
   const [e] = (await c.request(readItems('establishment', {
     fields: [...VENUE_FIELDS, 'editorial_description', 'address', 'location', 'google_place_id'],
     filter: /^\d+$/.test(slug) ? { id: { _eq: Number(slug) } } : { slug: { _eq: slug } },
     limit: 1,
   }))) as unknown as DxEstablishmentDetail[]
-  if (!e) throw new NotFound()
+  if (!e) return null
   const placeId = e.google_place_id?.trim().split(/\s/)[0] || undefined // editors paste "<id> <address>"; ids never contain spaces
 
-  const [nearby, accolades] = await Promise.all([
+  const [nearby, accolades, keyInfo] = await Promise.all([
     c.request(readItems('establishment', {
       fields: VENUE_FIELDS,
       filter: { city: { _eq: e.city }, id: { _neq: e.id } }, // ponytail: same-city match; switch to a _dwithin on `location` for real distance
       limit: 8,
     })) as unknown as Promise<DxEstablishment[]>,
     getAccolades(e.id).catch((err) => (console.error(err), [] as string[])), // no accolades block rather than no page
+    getKeyInfo(placeId, toVenue(e).type),
   ])
 
   return {
     venue: {
       ...toVenue(e),
+      ...keyInfo,
       description: richTextAssets(e.editorial_description ?? ''),
       gallery: e.photos.map((p) => p.directus_files_id),
       address: e.address ?? undefined,
@@ -177,13 +193,13 @@ export async function getLatestStories(excludeId?: number): Promise<Article[]> {
 }
 
 /** `slug` may also be a numeric id. `taxonomy` is still mock and added by the browser. */
-export async function getStory(slug: string): Promise<Omit<StoryPage, 'taxonomy'>> {
+export async function getStory(slug: string): Promise<Omit<StoryPage, 'taxonomy'> | null> {
   const [s] = (await client().request(readItems('story', {
     fields: [...STORY_CARD_FIELDS, 'published_at', 'tags', 'body', ...STORY_CARD_FIELDS.map((f) => `related_stories.story_id.${f}`)],
     filter: /^\d+$/.test(slug) ? { id: { _eq: Number(slug) } } : { slug: { _eq: slug } },
     limit: 1,
   }))) as unknown as DxStoryDetail[]
-  if (!s) throw new NotFound()
+  if (!s) return null
   const picked = s.related_stories.flatMap((r) => (r.story_id && r.story_id.id !== s.id ? [toArticle(r.story_id)] : []))
   return {
     story: {
@@ -248,9 +264,9 @@ export async function getRankingNav(): Promise<RankingNavItem[]> {
 }
 
 /** Venues = `ranking` rows of the event whose establishment type matches the event type. Films/partners are mock, added by the browser. */
-export async function getRanking(section: RankingSection, slug: string): Promise<Omit<RankingPage, 'films' | 'partners'>> {
+export async function getRanking(section: RankingSection, slug: string): Promise<Omit<RankingPage, 'films' | 'partners'> | null> {
   const r = (await getPublishedRankings()).find((x) => x.section === section && x.slug === slug)
-  if (!r || !r.event) throw new NotFound()
+  if (!r || !r.event) return null
   const c = client()
   const [rows, linked] = await Promise.all([
     c.request(readItems('ranking', {

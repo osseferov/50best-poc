@@ -1,0 +1,13 @@
+node_modules
+dist
+.output
+.nitro
+.tanstack
+.git
+.vercel
+.env
+.env.*
+!.env.example
+*.log
+Dockerfile
+.dockerignore

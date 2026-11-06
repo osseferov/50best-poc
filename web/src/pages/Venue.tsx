@@ -1,4 +1,4 @@
-import { useLoaderData } from 'react-router'
+import { useLoaderData } from '@tanstack/react-router'
 import type { VenuePage } from '../types'
 import { imageUrl } from '../lib/image'
 import { Nav } from '../components/Nav'
@@ -18,7 +18,7 @@ function mapSrc(v: VenuePage['venue']) {
 }
 
 export default function Venue() {
-  const { venue: v, nearby } = useLoaderData() as VenuePage
+  const { venue: v, nearby } = useLoaderData({ strict: false }) as VenuePage
   const signIn = useSignIn()
   const map = mapSrc(v)
   return (
